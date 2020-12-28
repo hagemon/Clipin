@@ -23,4 +23,8 @@ class ClipView: NSView {
         }
     }
     
+    override func keyDown(with event: NSEvent) {
+        print(event.keyCode)
+    }
+    
 }

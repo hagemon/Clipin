@@ -12,7 +12,11 @@ class ClipManager {
     static let shared = ClipManager()
     
     let controllers = NSMutableArray()
-    var status: ClipStatus = .off
+    var status: ClipStatus = .off {
+        didSet {
+            print(self.status)
+        }
+    }
     
     private init() {
     }
