@@ -10,7 +10,6 @@ import Carbon
 
 class ClipWindowController: NSWindowController {
     
-    var keyMonitor: Any?
     var startPoint: NSPoint?
     var lastPoint: NSPoint?
     var clipView: ClipView?
@@ -20,12 +19,19 @@ class ClipWindowController: NSWindowController {
     var screenImage: NSImage?
     var isDragging = false
     
+    var isActive = false
 
     override func windowDidLoad() {
         super.windowDidLoad()
+        // add enter observer
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     func capture(_ screen:NSScreen) {
+        NotificationCenter.default.addObserver(self, selector: #selector(self.done), name: NSNotification.Name(rawValue: "finishCapture"), object: nil)
         let cgScreenImage = CGDisplayCreateImage(CGMainDisplayID())
         self.screenImage = NSImage(cgImage: cgScreenImage!, size: screen.frame.size)
         self.window?.backgroundColor = NSColor(white: 0, alpha: 0.5)
@@ -54,6 +60,13 @@ class ClipWindowController: NSWindowController {
         }
     }
     
+    @objc func done() {
+        guard let image = self.clipView!.image else {
+            return
+        }
+        PinManager.shared.pin(image: image)
+    }
+    
     override func mouseDown(with event: NSEvent) {
         let location = event.locationInWindow
         switch ClipManager.shared.status {
@@ -73,7 +86,9 @@ class ClipWindowController: NSWindowController {
     override func mouseUp(with event: NSEvent) {
         switch ClipManager.shared.status {
         case .start:
-            ClipManager.shared.status = .select
+            if self.highlightRect != nil {
+                ClipManager.shared.status = .select
+            }
         case .select:
             self.isDragging = false
             self.startPoint = self.highlightRect!.origin

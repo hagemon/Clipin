@@ -11,7 +11,7 @@ class ClipManager {
     
     static let shared = ClipManager()
     
-    let controllers = NSMutableArray()
+    var controllers: [ClipWindowController] = []
     var status: ClipStatus = .off {
         didSet {
             print(self.status)
@@ -28,17 +28,17 @@ class ClipManager {
             let clipWindow = ClipWindow(contentRect: screen.frame, styleMask: .fullSizeContentView, backing: .buffered, defer: false, screen: screen)
             clipWindowController.window = clipWindow
             clipWindow.contentView = ClipView(frame: screen.frame)
-            self.controllers.add(clipWindowController)
+            controllers.append(clipWindowController)
             self.status = .ready
             clipWindowController.capture(screen)
         }
-        
     }
     
     func end() {
         for controller in self.controllers {
-            (controller as! ClipWindowController).window?.orderOut(nil)
+            controller.window?.orderOut(nil)
         }
+        self.controllers.removeAll()
         self.status = .off
     }
     

@@ -33,6 +33,9 @@ class ViewController: NSViewController {
                     self.capture(NSDate.now.timestamp())
                 }
             }
+            if ClipManager.shared.status == .select && event.keyCode == kVK_Return {
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "finishCapture"), object: self, userInfo: nil)
+            }
             return event
         })
         // Do any additional setup after loading the view.

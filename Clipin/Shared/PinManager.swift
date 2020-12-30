@@ -8,5 +8,10 @@
 import Cocoa
 
 class PinManager: NSObject {
-
+    static let shared = PinManager()
+    
+    func pin(image:NSImage) {
+        print("pin!")
+    }
+    
 }
