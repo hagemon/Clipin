@@ -11,6 +11,7 @@ class PinWindowController: NSWindowController {
     
     var startPoint: NSPoint?
     var lastPoint: NSPoint?
+    var pinWindow: PinWindow?
     
     override init(window: NSWindow?) {
         super.init(window: window)
@@ -18,8 +19,9 @@ class PinWindowController: NSWindowController {
     
     init(window: PinWindow) {
         super.init(window: window)
+        self.pinWindow = window
         guard let window = self.window, let view = window.contentView else { return }
-        let trackingArea = NSTrackingArea(rect: window.frame, options: [.activeAlways, .mouseEnteredAndExited], owner: self, userInfo: [:])
+        let trackingArea = NSTrackingArea(rect: view.frame, options: [.activeAlways, .mouseEnteredAndExited], owner: self, userInfo: [:])
         view.addTrackingArea(trackingArea)
     }
     
@@ -33,13 +35,13 @@ class PinWindowController: NSWindowController {
     }
     
     override func mouseEntered(with event: NSEvent) {
-        guard let window = self.window else { return }
-        window.titleVisibility = .visible
+        guard let window = self.pinWindow else { return }
+        window.showTitle()
     }
     
     override func mouseExited(with event: NSEvent) {
-        guard let window = self.window else { return }
-        window.titleVisibility = .hidden
+        guard let window = self.pinWindow else { return }
+        window.hideTitle()
     }
         
 }

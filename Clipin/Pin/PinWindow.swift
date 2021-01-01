@@ -15,4 +15,12 @@ class PinWindow: NSWindow {
         self.contentView = contentView
     }
     
+    func hideTitle() {
+        self.styleMask = [.titled, .fullSizeContentView]
+    }
+    
+    func showTitle() {
+        self.styleMask = [.closable, .titled, .miniaturizable, .fullSizeContentView]
+    }
+    
 }
