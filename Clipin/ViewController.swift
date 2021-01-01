@@ -11,18 +11,10 @@ import Carbon
 class ViewController: NSViewController {
     
     var keyMonitor: Any?
-    let root = "./ImageStorage/"
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let fm = FileManager()
-        if !fm.fileExists(atPath: self.root) {
-            do {
-                try fm.createDirectory(at: URL(fileURLWithPath: self.root), withIntermediateDirectories: true, attributes: [:])
-            } catch {
-                print("Create directory failed")
-            }
-        }
+        
         self.keyMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown, handler: {
             (event) -> NSEvent? in
             if ClipManager.shared.status != .off && event.keyCode == kVK_Escape {
@@ -34,7 +26,7 @@ class ViewController: NSViewController {
                 }
             }
             if ClipManager.shared.status == .select && event.keyCode == kVK_Return {
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "finishCapture"), object: self, userInfo: nil)
+                NotificationCenter.default.post(name: NotiNames.clipEnd.name, object: self, userInfo: nil)
             }
             return event
         })

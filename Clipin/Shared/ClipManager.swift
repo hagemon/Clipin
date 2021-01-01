@@ -19,10 +19,10 @@ class ClipManager {
     }
     
     private init() {
+        NotificationCenter.default.addObserver(self, selector: #selector(self.end), name: NotiNames.pinEnd.name, object: nil)
     }
     
     func start() {
-//        print("\(NSScreen.screens.count) screens detected:\n \(NSScreen.screens)")
         for screen in NSScreen.screens {
             let clipWindowController = ClipWindowController()
             let clipWindow = ClipWindow(contentRect: screen.frame, styleMask: .fullSizeContentView, backing: .buffered, defer: false, screen: screen)
@@ -34,7 +34,7 @@ class ClipManager {
         }
     }
     
-    func end() {
+    @objc func end() {
         for controller in self.controllers {
             controller.window?.orderOut(nil)
         }
@@ -44,11 +44,3 @@ class ClipManager {
     
 }
 
-enum ClipStatus {
-    case off
-    case ready
-    case start
-    case select
-    case adjust
-    case drag
-}

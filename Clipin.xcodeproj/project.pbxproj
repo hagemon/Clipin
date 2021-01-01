@@ -11,6 +11,12 @@
 		3A1D6D12258E01F90096A416 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1D6D11258E01F90096A416 /* ViewController.swift */; };
 		3A1D6D14258E01FB0096A416 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A1D6D13258E01FB0096A416 /* Assets.xcassets */; };
 		3A1D6D17258E01FB0096A416 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A1D6D15258E01FB0096A416 /* Main.storyboard */; };
+		3A9EA823259C1C5A0000962E /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9EA822259C1C5A0000962E /* Enums.swift */; };
+		3A9EA829259DE8990000962E /* Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9EA828259DE8990000962E /* Extentions.swift */; };
+		3A9EA82D259EC6220000962E /* PinWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9EA82B259EC6220000962E /* PinWindowController.swift */; };
+		3A9EA831259EC63C0000962E /* PinWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9EA830259EC63C0000962E /* PinWindow.swift */; };
+		3A9EA834259EC6C00000962E /* PinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9EA833259EC6C00000962E /* PinView.swift */; };
+		3A9EA838259ECDFE0000962E /* PinWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A9EA837259ECDFE0000962E /* PinWindowController.xib */; };
 		3AB244392598420F003C0CDA /* ClipManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB244382598420F003C0CDA /* ClipManager.swift */; };
 		3AB2443C2598421A003C0CDA /* PinManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB2443B2598421A003C0CDA /* PinManager.swift */; };
 		3AB24444259844BB003C0CDA /* ClipWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB24443259844BA003C0CDA /* ClipWindow.swift */; };
@@ -26,6 +32,12 @@
 		3A1D6D16258E01FB0096A416 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3A1D6D18258E01FB0096A416 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3A1D6D19258E01FB0096A416 /* Clipin.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Clipin.entitlements; sourceTree = "<group>"; };
+		3A9EA822259C1C5A0000962E /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
+		3A9EA828259DE8990000962E /* Extentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extentions.swift; sourceTree = "<group>"; };
+		3A9EA82B259EC6220000962E /* PinWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinWindowController.swift; sourceTree = "<group>"; };
+		3A9EA830259EC63C0000962E /* PinWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinWindow.swift; sourceTree = "<group>"; };
+		3A9EA833259EC6C00000962E /* PinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinView.swift; sourceTree = "<group>"; };
+		3A9EA837259ECDFE0000962E /* PinWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PinWindowController.xib; sourceTree = "<group>"; };
 		3AB244382598420F003C0CDA /* ClipManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipManager.swift; sourceTree = "<group>"; };
 		3AB2443B2598421A003C0CDA /* PinManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinManager.swift; sourceTree = "<group>"; };
 		3AB24443259844BA003C0CDA /* ClipWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipWindow.swift; sourceTree = "<group>"; };
@@ -63,6 +75,7 @@
 		3A1D6D0E258E01F90096A416 /* Clipin */ = {
 			isa = PBXGroup;
 			children = (
+				3A9EA821259C1C430000962E /* Utils */,
 				3AB2444B259844DD003C0CDA /* Shared */,
 				3AB2444A259844D8003C0CDA /* Pin */,
 				3AB24449259844D0003C0CDA /* Clip */,
@@ -74,6 +87,15 @@
 				3A1D6D19258E01FB0096A416 /* Clipin.entitlements */,
 			);
 			path = Clipin;
+			sourceTree = "<group>";
+		};
+		3A9EA821259C1C430000962E /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				3A9EA822259C1C5A0000962E /* Enums.swift */,
+				3A9EA828259DE8990000962E /* Extentions.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		3AB24449259844D0003C0CDA /* Clip */ = {
@@ -89,6 +111,10 @@
 		3AB2444A259844D8003C0CDA /* Pin */ = {
 			isa = PBXGroup;
 			children = (
+				3A9EA82B259EC6220000962E /* PinWindowController.swift */,
+				3A9EA830259EC63C0000962E /* PinWindow.swift */,
+				3A9EA833259EC6C00000962E /* PinView.swift */,
+				3A9EA837259ECDFE0000962E /* PinWindowController.xib */,
 			);
 			path = Pin;
 			sourceTree = "<group>";
@@ -160,6 +186,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A1D6D14258E01FB0096A416 /* Assets.xcassets in Resources */,
+				3A9EA838259ECDFE0000962E /* PinWindowController.xib in Resources */,
 				3A1D6D17258E01FB0096A416 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -173,11 +200,16 @@
 			files = (
 				3AB2444F2598463B003C0CDA /* ClipWindowController.swift in Sources */,
 				3AB244392598420F003C0CDA /* ClipManager.swift in Sources */,
+				3A9EA834259EC6C00000962E /* PinView.swift in Sources */,
 				3AB2443C2598421A003C0CDA /* PinManager.swift in Sources */,
+				3A9EA823259C1C5A0000962E /* Enums.swift in Sources */,
 				3AB24444259844BB003C0CDA /* ClipWindow.swift in Sources */,
+				3A9EA82D259EC6220000962E /* PinWindowController.swift in Sources */,
 				3AB24447259844CD003C0CDA /* ClipView.swift in Sources */,
+				3A9EA831259EC63C0000962E /* PinWindow.swift in Sources */,
 				3A1D6D12258E01F90096A416 /* ViewController.swift in Sources */,
 				3A1D6D10258E01F90096A416 /* AppDelegate.swift in Sources */,
+				3A9EA829259DE8990000962E /* Extentions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

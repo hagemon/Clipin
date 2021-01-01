@@ -17,14 +17,12 @@ class ClipView: NSView {
         super.draw(dirtyRect)
 
         // Drawing code here.
-        if self.image != nil {
-            let rect = NSIntersectionRect(self.drawingRect!, self.bounds)
-            self.image?.draw(in: rect, from: rect, operation: .sourceOver, fraction: 1.0)
+        guard let image = self.image else {
+            return
         }
-    }
-    
-    override func keyDown(with event: NSEvent) {
-        print(event.keyCode)
+        var rect = NSIntersectionRect(self.drawingRect!, self.bounds)
+        rect = NSIntegralRect(rect)
+        image.draw(in: rect, from: rect, operation: .sourceOver, fraction: 1.0)
     }
     
 }

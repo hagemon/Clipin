@@ -31,7 +31,7 @@ class ClipWindowController: NSWindowController {
     }
     
     func capture(_ screen:NSScreen) {
-        NotificationCenter.default.addObserver(self, selector: #selector(self.done), name: NSNotification.Name(rawValue: "finishCapture"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.done), name: NotiNames.clipEnd.name, object: nil)
         let cgScreenImage = CGDisplayCreateImage(CGMainDisplayID())
         self.screenImage = NSImage(cgImage: cgScreenImage!, size: screen.frame.size)
         self.window?.backgroundColor = NSColor(white: 0, alpha: 0.5)
@@ -61,10 +61,14 @@ class ClipWindowController: NSWindowController {
     }
     
     @objc func done() {
-        guard let image = self.clipView!.image else {
+        guard let view = self.clipView,
+              let rect = view.drawingRect
+        else {
             return
         }
-        PinManager.shared.pin(image: image)
+        guard let bitmapRep = view.bitmapImageRepForCachingDisplay(in: rect) else {return}
+        view.cacheDisplay(in: rect, to: bitmapRep)
+        PinManager.shared.pin(rep: bitmapRep, rect: rect)
     }
     
     override func mouseDown(with event: NSEvent) {
@@ -88,6 +92,8 @@ class ClipWindowController: NSWindowController {
         case .start:
             if self.highlightRect != nil {
                 ClipManager.shared.status = .select
+            } else {
+                ClipManager.shared.status = .ready
             }
         case .select:
             self.isDragging = false
