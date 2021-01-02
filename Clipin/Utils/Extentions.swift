@@ -12,3 +12,9 @@ extension NSSize {
         return NSSize(width: aSize.width*t, height: aSize.height*t)
     }
 }
+
+extension Date {
+    func timestamp() -> String {
+        return String(Date().timeIntervalSince1970)
+    }
+}

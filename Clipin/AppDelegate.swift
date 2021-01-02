@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  AppDelegate.swift
 //  Clipin
 //
 //  Created by 一折 on 2020/12/19.
@@ -7,15 +7,15 @@
 
 import Cocoa
 import Carbon
+import HotKey
 
-class ViewController: NSViewController {
+@main
+class AppDelegate: NSObject, NSApplicationDelegate {
     
-    var keyMonitor: Any?
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        self.keyMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown, handler: {
+    let statusItem = NSStatusBar.system.statusItem(withLength:NSStatusItem.squareLength)
+
+    func applicationDidFinishLaunching(_ aNotification: Notification) {
+        NSEvent.addLocalMonitorForEvents(matching: .keyDown, handler: {
             (event) -> NSEvent? in
             if ClipManager.shared.status != .off && event.keyCode == kVK_Escape {
                 ClipManager.shared.end()
@@ -30,28 +30,23 @@ class ViewController: NSViewController {
             }
             return event
         })
-        // Do any additional setup after loading the view.
+        
+        guard let button = self.statusItem.button else { return }
+        button.image = NSImage(named: NSImage.Name("StatusBarIcon"))
+        button.action = #selector(showMenu)
     }
-    
-    override var representedObject: Any? {
-        didSet {
-            // Update the view, if already loaded.
-        }
-    }
-    
-    @IBAction func shotButtonClickAction(_ sender: Any) {
-        self.capture(NSDate.now.timestamp())
+
+    func applicationWillTerminate(_ aNotification: Notification) {
+        // Insert code here to tear down your application
     }
     
     func capture(_ dest:String) -> Void {
         ClipManager.shared.start()
     }
     
-}
-
-extension Date {
-    func timestamp() -> String {
-        return String(Date().timeIntervalSince1970)
+    @objc func showMenu() {
     }
+
+
 }
 

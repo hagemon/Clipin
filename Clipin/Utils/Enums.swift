@@ -22,5 +22,7 @@ enum NotiNames: String {
     }
     case clipEnd = "doEndClip"
     case pinEnd = "doEndPin"
+    case pinFloating = "pinFloating"
+    case pinNormal = "pinNormal"
 }
 

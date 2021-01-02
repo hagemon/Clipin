@@ -13,6 +13,9 @@ class PinWindow: NSWindow {
         self.titleVisibility = .visible
         self.titlebarAppearsTransparent = true
         self.contentView = contentView
+        self.level = .floating
+        NotificationCenter.default.addObserver(self, selector: #selector(pinFloating), name: NotiNames.pinFloating.name, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(pinNormal), name: NotiNames.pinNormal.name, object: nil)
     }
     
     func hideTitle() {
@@ -21,6 +24,14 @@ class PinWindow: NSWindow {
     
     func showTitle() {
         self.styleMask = [.closable, .titled, .miniaturizable, .fullSizeContentView]
+    }
+    
+    @objc func pinFloating() {
+        self.level = .floating
+    }
+    
+    @objc func pinNormal() {
+        self.level = .normal
     }
     
 }

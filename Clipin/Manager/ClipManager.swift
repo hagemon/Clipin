@@ -23,6 +23,7 @@ class ClipManager {
     }
     
     func start() {
+        NotificationCenter.default.post(name: NotiNames.pinNormal.name, object: nil)
         for screen in NSScreen.screens {
             let clipWindowController = ClipWindowController()
             let clipWindow = ClipWindow(contentRect: screen.frame, styleMask: .fullSizeContentView, backing: .buffered, defer: false, screen: screen)
@@ -35,6 +36,7 @@ class ClipManager {
     }
     
     @objc func end() {
+        NotificationCenter.default.post(name: NotiNames.pinFloating.name, object: nil)
         for controller in self.controllers {
             controller.window?.orderOut(nil)
         }
