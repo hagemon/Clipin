@@ -20,6 +20,8 @@ class ClipWindowController: NSWindowController {
     var isDragging = false
     
     var isActive = false
+    
+    private var lock = false
 
     override func windowDidLoad() {
         super.windowDidLoad()
@@ -113,22 +115,32 @@ class ClipWindowController: NSWindowController {
     }
     
     override func mouseDragged(with event: NSEvent) {
+        guard !self.lock else {
+            return
+        }
+        self.lock = true
         let location = event.locationInWindow
         switch ClipManager.shared.status {
         case .start:
             self.highlightRect = NSUnionRect(NSRect(origin: self.startPoint!, size: CGSize(width: 1, height: 1)), NSRect(origin: location, size: CGSize(width: 1, height: 1)))
             self.highlight()
         case .select:
-            if self.isDragging {
-                let dx = location.x - self.lastPoint!.x
-                let dy = location.y - self.lastPoint!.y
-                self.highlightRect = self.highlightRect!.offsetBy(dx: dx, dy: dy)
-                self.lastPoint = location
-                self.highlight()
+            guard var rect = self.highlightRect,
+                  self.isDragging,
+                  let window = self.window
+            else { break }
+            let dx = location.x - self.lastPoint!.x
+            let dy = location.y - self.lastPoint!.y
+            rect = rect.offsetBy(dx: dx, dy: dy)
+            if window.frame.contains(rect) {
+                self.highlightRect = rect
             }
+            self.lastPoint = location
+            self.highlight()
         default:
-            return
+            break
         }
+        self.lock = false
     }
     
 }

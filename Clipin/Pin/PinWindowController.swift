@@ -45,5 +45,9 @@ class PinWindowController: NSWindowController, NSWindowDelegate {
         guard let window = self.pinWindow else { return }
         window.hideTitle()
     }
+    
+    override func mouseDragged(with event: NSEvent) {
+        
+    }
         
 }
