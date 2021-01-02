@@ -22,8 +22,6 @@ class PinManager: NSObject {
                 print("Create directory failed")
             }
         }
-        NotificationCenter.default.addObserver(self, selector: #selector(self.windowCloseHandler(_:)), name: NotiNames.windowClose.name, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.windowFront(_:)), name: NotiNames.dockMenuItemSelect.name, object: nil)
     }
     
     func pin(rep: NSBitmapImageRep, rect:NSRect) {
@@ -32,14 +30,9 @@ class PinManager: NSObject {
         let view = PinView(image: image)
         let window = PinWindow(rect: rect, contentView: view)
         let controller = PinWindowController(window: window)
-        if self.controllers.isEmpty {
-            NSApp.setActivationPolicy(.regular)
-        }
         self.controllers.append(controller)
-        window.title = "Window \(self.controllers.count)"
         controller.showWindow(nil)
         NotificationCenter.default.post(name: NotiNames.pinEnd.name, object: nil)
-        DockMenuManager.shared.addWindow()
     }
     
     private func saveImage(rep: NSBitmapImageRep) {
@@ -55,23 +48,6 @@ class PinManager: NSObject {
     
     private func getURL() -> URL {
         return URL(fileURLWithPath: self.root+NSDate.now.timestamp()+".jpg")
-    }
-    
-    @objc func windowCloseHandler(_ notification: Notification) {
-        guard let index = self.controllers.firstIndex(of: notification.object as! PinWindowController) else { return }
-        self.controllers.remove(at: index)
-        if self.controllers.isEmpty {
-            NSApp.setActivationPolicy(.accessory)
-        }
-        DockMenuManager.shared.removeWindow(at: index)
-    }
-    
-    @objc func windowFront(_ notification: Notification) {
-        guard let userInfo = notification.userInfo,
-              let index = userInfo["index"] as? Int,
-              let window = self.controllers[index].pinWindow
-        else { return }
-        window.orderFront(nil)
     }
     
 }
