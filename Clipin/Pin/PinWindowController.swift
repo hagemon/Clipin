@@ -8,11 +8,9 @@
 import Cocoa
 
 class PinWindowController: NSWindowController, NSWindowDelegate {
-    
-    var startPoint: NSPoint?
-    var lastPoint: NSPoint?
+
     var pinWindow: PinWindow?
-    
+        
     override init(window: NSWindow?) {
         super.init(window: window)
     }
@@ -46,8 +44,8 @@ class PinWindowController: NSWindowController, NSWindowDelegate {
         window.hideTitle()
     }
     
-    override func mouseDragged(with event: NSEvent) {
-        
+    override func mouseDown(with event: NSEvent) {
+        self.lastPoint = event.locationInWindow
     }
         
 }

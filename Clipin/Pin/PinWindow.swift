@@ -14,6 +14,7 @@ class PinWindow: NSWindow {
         self.titlebarAppearsTransparent = true
         self.contentView = contentView
         self.level = .floating
+        self.isMovableByWindowBackground = true
         NotificationCenter.default.addObserver(self, selector: #selector(pinFloating), name: NotiNames.pinFloating.name, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(pinNormal), name: NotiNames.pinNormal.name, object: nil)
     }
