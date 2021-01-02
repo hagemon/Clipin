@@ -131,8 +131,4 @@ class ClipWindowController: NSWindowController {
         }
     }
     
-    override func keyDown(with event: NSEvent) {
-        print("ha")
-    }
-    
 }

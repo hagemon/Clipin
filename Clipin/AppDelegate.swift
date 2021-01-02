@@ -37,6 +37,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         guard let button = self.statusItem.button else { return }
         button.image = NSImage(named: NSImage.Name("StatusBarIcon"))
         button.action = #selector(showMenu)
+        
+        NSApp.setActivationPolicy(.accessory)
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {

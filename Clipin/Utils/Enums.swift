@@ -24,5 +24,7 @@ enum NotiNames: String {
     case pinEnd = "doEndPin"
     case pinFloating = "pinFloating"
     case pinNormal = "pinNormal"
+    case windowClose = "windowClose"
+    case dockMenuItemSelect = "dockMenuItemSelect"
 }
 

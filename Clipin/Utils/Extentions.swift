@@ -7,12 +7,6 @@
 
 import Cocoa
 
-extension NSSize {
-    public static func *(aSize: NSSize, t:CGFloat) -> NSSize {
-        return NSSize(width: aSize.width*t, height: aSize.height*t)
-    }
-}
-
 extension Date {
     func timestamp() -> String {
         return String(Date().timeIntervalSince1970)

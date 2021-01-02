@@ -7,7 +7,7 @@
 
 import Cocoa
 
-class PinWindowController: NSWindowController {
+class PinWindowController: NSWindowController, NSWindowDelegate {
     
     var startPoint: NSPoint?
     var lastPoint: NSPoint?
@@ -19,10 +19,12 @@ class PinWindowController: NSWindowController {
     
     init(window: PinWindow) {
         super.init(window: window)
+        window.delegate = self
         self.pinWindow = window
         guard let window = self.window, let view = window.contentView else { return }
         let trackingArea = NSTrackingArea(rect: view.frame, options: [.activeAlways, .mouseEnteredAndExited], owner: self, userInfo: [:])
         view.addTrackingArea(trackingArea)
+        
     }
     
     required init?(coder: NSCoder) {
@@ -34,6 +36,11 @@ class PinWindowController: NSWindowController {
         // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
     }
     
+    func windowShouldClose(_ sender: NSWindow) -> Bool {
+        NotificationCenter.default.post(name: NotiNames.windowClose.name, object: self)
+        return true
+    }
+        
     override func mouseEntered(with event: NSEvent) {
         guard let window = self.pinWindow else { return }
         window.showTitle()
