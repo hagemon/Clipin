@@ -25,10 +25,9 @@ class ClipManager {
     func start() {
         NotificationCenter.default.post(name: NotiNames.pinNormal.name, object: nil)
         for screen in NSScreen.screens {
-            let clipWindowController = ClipWindowController()
-            let clipWindow = ClipWindow(contentRect: screen.frame, styleMask: .fullSizeContentView, backing: .buffered, defer: false, screen: screen)
-            clipWindowController.window = clipWindow
-            clipWindow.contentView = ClipView(frame: screen.frame)
+            let view = ClipView(frame: screen.frame)
+            let clipWindow = ClipWindow(contentRect: screen.frame, contentView: view)
+            let clipWindowController = ClipWindowController(window: clipWindow)
             controllers.append(clipWindowController)
             self.status = .ready
             clipWindowController.capture(screen)

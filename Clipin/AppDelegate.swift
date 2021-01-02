@@ -13,6 +13,7 @@ import HotKey
 class AppDelegate: NSObject, NSApplicationDelegate {
     
     let statusItem = NSStatusBar.system.statusItem(withLength:NSStatusItem.squareLength)
+    let hotKey = HotKey(key: .a, modifiers: [.capsLock, .command])
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         NSEvent.addLocalMonitorForEvents(matching: .keyDown, handler: {
@@ -20,16 +21,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             if ClipManager.shared.status != .off && event.keyCode == kVK_Escape {
                 ClipManager.shared.end()
             }
-            if ClipManager.shared.status == .off && event.modifierFlags.contains(.shift) {
-                if event.keyCode == kVK_ANSI_A {
-                    self.capture(NSDate.now.timestamp())
-                }
-            }
             if ClipManager.shared.status == .select && event.keyCode == kVK_Return {
                 NotificationCenter.default.post(name: NotiNames.clipEnd.name, object: self, userInfo: nil)
             }
-            return event
+            return nil
         })
+        
+        self.hotKey.keyUpHandler = {
+            guard ClipManager.shared.status == .off else {
+                return
+            }
+            self.capture(NSDate.now.timestamp())
+        }
         
         guard let button = self.statusItem.button else { return }
         button.image = NSImage(named: NSImage.Name("StatusBarIcon"))

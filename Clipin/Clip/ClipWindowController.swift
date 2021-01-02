@@ -26,6 +26,15 @@ class ClipWindowController: NSWindowController {
         // add enter observer
     }
     
+    init(window: ClipWindow) {
+        super.init(window: window)
+        self.window = window
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
