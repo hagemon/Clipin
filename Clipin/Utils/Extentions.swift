@@ -12,3 +12,9 @@ extension Date {
         return String(Date().timeIntervalSince1970)
     }
 }
+
+extension NSPoint {
+    func offsetBy(dx:CGFloat, dy: CGFloat) -> NSPoint {
+        return NSPoint(x: self.x+dx, y: self.y+dy)
+    }
+}

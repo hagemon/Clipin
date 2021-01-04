@@ -13,7 +13,7 @@ import HotKey
 class AppDelegate: NSObject, NSApplicationDelegate {
     
     let statusItem = NSStatusBar.system.statusItem(withLength:NSStatusItem.squareLength)
-    let hotKey = HotKey(key: .a, modifiers: [.capsLock, .command])
+    let hotKey = HotKey(key: .a, modifiers: [.shift, .command])
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         NSEvent.addLocalMonitorForEvents(matching: .keyDown, handler: {

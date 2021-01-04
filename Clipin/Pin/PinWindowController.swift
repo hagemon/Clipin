@@ -43,9 +43,5 @@ class PinWindowController: NSWindowController, NSWindowDelegate {
         guard let window = self.pinWindow else { return }
         window.hideTitle()
     }
-    
-    override func mouseDown(with event: NSEvent) {
-        self.lastPoint = event.locationInWindow
-    }
         
 }

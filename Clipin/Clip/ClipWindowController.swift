@@ -42,32 +42,43 @@ class ClipWindowController: NSWindowController {
     }
     
     func capture(_ screen:NSScreen) {
+        guard let window = self.window else { return }
         NotificationCenter.default.addObserver(self, selector: #selector(self.done), name: NotiNames.clipEnd.name, object: nil)
         let cgScreenImage = CGDisplayCreateImage(CGMainDisplayID())
         self.screenImage = NSImage(cgImage: cgScreenImage!, size: screen.frame.size)
-        self.window?.backgroundColor = NSColor(white: 0, alpha: 0.5)
-        self.clipView = self.window?.contentView as? ClipView
+        window.backgroundColor = NSColor(white: 0, alpha: 0.5)
+        self.clipView = window.contentView as? ClipView
         self.showWindow(nil)
     }
     
     func highlight() {
-        if self.highlightRect == nil {
-            return
-        }
-        else if self.screenImage != nil && self.lastRect.equalTo(self.highlightRect!){
-            return
-        }
-        else if self.screenImage == nil && self.clipView?.image == nil{
-            return
-        }
+//        if self.highlightRect == nil {
+//            return
+//        }
+//        else if self.screenImage != nil && self.lastRect.equalTo(self.highlightRect!){
+//            if self.clipView != nil && !self.clipView!.showDots {
+//
+//            }
+//            return
+//        }
+//        else if self.screenImage == nil && self.clipView?.image == nil{
+//            return
+//        }
+        guard let highlightRect = self.highlightRect,
+              let image = self.screenImage,
+              let view = self.clipView
+        else { return }
         DispatchQueue.main.async {
-            if self.clipView?.image == nil {
-                self.clipView?.image = self.screenImage
+//            guard let view = self.clipView,
+//                  let highlightRect = self.highlightRect
+//            else {return}
+            if view.image == nil {
+                view.image = image
             }
-            let rect = self.window?.convertFromScreen(self.highlightRect!)
-            self.clipView?.drawingRect = rect
-            self.clipView?.needsDisplay = true
-            self.lastRect = self.highlightRect!
+            let rect = self.window?.convertFromScreen(highlightRect)
+            view.drawingRect = rect
+            view.needsDisplay = true
+            self.lastRect = highlightRect
         }
     }
     
@@ -89,10 +100,9 @@ class ClipWindowController: NSWindowController {
             ClipManager.shared.status = .start
             self.startPoint = location
         case .select:
-            if self.highlightRect!.contains(location) {
-                self.isDragging = true
-                self.lastPoint = location
-            }
+            guard let rect = self.highlightRect, rect.contains(location) else { return }
+            self.isDragging = true
+            self.lastPoint = location
         default:
             return
         }
@@ -103,6 +113,8 @@ class ClipWindowController: NSWindowController {
         case .start:
             if self.highlightRect != nil {
                 ClipManager.shared.status = .select
+                self.clipView!.showDots = true
+                self.highlight()
             } else {
                 ClipManager.shared.status = .ready
             }
@@ -126,21 +138,68 @@ class ClipWindowController: NSWindowController {
             self.highlight()
         case .select:
             guard var rect = self.highlightRect,
-                  self.isDragging,
-                  let window = self.window
+                  self.isDragging
             else { break }
-            let dx = location.x - self.lastPoint!.x
-            let dy = location.y - self.lastPoint!.y
-            rect = rect.offsetBy(dx: dx, dy: dy)
-            if window.frame.contains(rect) {
-                self.highlightRect = rect
+            // bounds detection
+            var dx = location.x - self.lastPoint!.x
+            var dy = location.y - self.lastPoint!.y
+            let offsetRect = rect.offsetBy(dx: dx, dy: dy)
+            switch self.detectOverflow(rect: offsetRect) {
+            case .bothOverflow:
+                dx = 0
+                dy = 0
+            case .xOverflow:
+                dx = 0
+            case .yOverflow:
+                dy = 0
+            default:
+                break
             }
+            rect = rect.offsetBy(dx: dx, dy: dy)
+            self.highlightRect = rect
             self.lastPoint = location
+            self.startPoint = rect.origin
             self.highlight()
         default:
             break
         }
         self.lock = false
+    }
+    
+    private func detectOverflow(rect: NSRect) -> RectIssue {
+        let origin = rect.origin
+        let points = [origin,
+                      origin.offsetBy(dx: rect.width, dy: 0),
+                      origin.offsetBy(dx: 0, dy: rect.height),
+                      origin.offsetBy(dx: rect.width, dy: rect.height)
+        ]
+        guard let window = self.window else { return .normal }
+        var xFlag = false
+        var yFlag = false
+        for p in points {
+            if p.x < 0 || p.x > window.frame.width{
+                xFlag = true
+            }
+            if p.y < 0 || p.y > window.frame.height{
+                yFlag = true
+            }
+        }
+        if xFlag && yFlag {
+            return .bothOverflow
+        }else if xFlag {
+            return .xOverflow
+        }else if yFlag {
+            return .yOverflow
+        }else{
+            return .normal
+        }
+    }
+    
+    enum RectIssue {
+        case xOverflow
+        case yOverflow
+        case bothOverflow
+        case normal
     }
     
 }
