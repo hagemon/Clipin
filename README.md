@@ -2,7 +2,11 @@
 
 A simple tool to capture and pin regions of screen for mac OS.
 
-Have not been tested on multi-screen environment.
+Preserving important things on your desktop.
+
+![screenshot](Resources/screenshot.png)
+
+Have not been tested on multi-screen environment because I can't afford an extra screen right now😢.
 
 # Usage
 

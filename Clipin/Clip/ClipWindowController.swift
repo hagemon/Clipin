@@ -17,7 +17,6 @@ class ClipWindowController: NSWindowController {
     var lastRect: NSRect?
     var highlightRect: NSRect?
     var screenImage: NSImage?
-//    var isDragging = false
     
     var selectDotType: DotType = .none
     var selectDot: NSPoint = .zero
@@ -26,7 +25,6 @@ class ClipWindowController: NSWindowController {
 
     override func windowDidLoad() {
         super.windowDidLoad()
-        // add enter observer
     }
     
     init(window: ClipWindow) {
@@ -58,16 +56,12 @@ class ClipWindowController: NSWindowController {
               let view = self.clipView
         else { return }
         DispatchQueue.main.async {
-//            guard let view = self.clipView,
-//                  let highlightRect = self.highlightRect
-//            else {return}
             if view.image == nil {
                 view.image = image
             }
             let rect = self.window?.convertFromScreen(highlightRect)
             view.drawingRect = rect
             view.needsDisplay = true
-//            self.lastRect = highlightRect
         }
     }
     
