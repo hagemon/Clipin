@@ -19,7 +19,10 @@ class ClipManager {
     }
     
     private init() {
-        NotificationCenter.default.addObserver(self, selector: #selector(self.end), name: NotiNames.pinEnd.name, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.end),
+                                               name: NotiNames.pinEnd.name,
+                                               object: nil)
     }
     
     func start() {

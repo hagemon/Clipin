@@ -6,6 +6,8 @@ Preserving important things on your desktop.
 
 ![screenshot](Resources/screenshot.png)
 
+My development blog can be found [here](https://www.notion.so/hagemon/Clipin-Mac-OS-38d9044334b04882a81561b949b304e6) (Chinese version) with Notion.
+
 Have not been tested on multi-screen environment because I can't afford an extra screen right now😢.
 
 # Usage
@@ -21,4 +23,4 @@ Default hot key is `cmd+shift+A`
 # TODO
 
 - Support multi-screen environment.
-- Add basic tools for editing pinned views.
+- Add basic tools for editing pinned view.
