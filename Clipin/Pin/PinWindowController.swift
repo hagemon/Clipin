@@ -7,7 +7,7 @@
 
 import Cocoa
 
-class PinWindowController: NSWindowController, NSWindowDelegate {
+class PinWindowController: NSWindowController {
 
     var pinWindow: PinWindow?
         
@@ -17,7 +17,6 @@ class PinWindowController: NSWindowController, NSWindowDelegate {
     
     init(window: PinWindow) {
         super.init(window: window)
-        window.delegate = self
         self.pinWindow = window
         guard let window = self.window, let view = window.contentView else { return }
         let trackingArea = NSTrackingArea(rect: view.frame, options: [.activeAlways, .mouseEnteredAndExited], owner: self, userInfo: [:])

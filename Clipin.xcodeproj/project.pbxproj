@@ -10,6 +10,7 @@
 		3A1D6D10258E01F90096A416 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1D6D0F258E01F90096A416 /* AppDelegate.swift */; };
 		3A1D6D14258E01FB0096A416 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A1D6D13258E01FB0096A416 /* Assets.xcassets */; };
 		3A1D6D17258E01FB0096A416 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A1D6D15258E01FB0096A416 /* Main.storyboard */; };
+		3A31CCCD25A3645300589576 /* RectUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A31CCCC25A3645300589576 /* RectUtil.swift */; };
 		3A9EA823259C1C5A0000962E /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9EA822259C1C5A0000962E /* Enums.swift */; };
 		3A9EA829259DE8990000962E /* Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9EA828259DE8990000962E /* Extentions.swift */; };
 		3A9EA82D259EC6220000962E /* PinWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9EA82B259EC6220000962E /* PinWindowController.swift */; };
@@ -30,6 +31,7 @@
 		3A1D6D16258E01FB0096A416 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3A1D6D18258E01FB0096A416 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3A1D6D19258E01FB0096A416 /* Clipin.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Clipin.entitlements; sourceTree = "<group>"; };
+		3A31CCCC25A3645300589576 /* RectUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectUtil.swift; sourceTree = "<group>"; };
 		3A9EA822259C1C5A0000962E /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		3A9EA828259DE8990000962E /* Extentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extentions.swift; sourceTree = "<group>"; };
 		3A9EA82B259EC6220000962E /* PinWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinWindowController.swift; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 			children = (
 				3A9EA822259C1C5A0000962E /* Enums.swift */,
 				3A9EA828259DE8990000962E /* Extentions.swift */,
+				3A31CCCC25A3645300589576 /* RectUtil.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -204,6 +207,7 @@
 				3A9EA834259EC6C00000962E /* PinView.swift in Sources */,
 				3AB2443C2598421A003C0CDA /* PinManager.swift in Sources */,
 				3A9EA823259C1C5A0000962E /* Enums.swift in Sources */,
+				3A31CCCD25A3645300589576 /* RectUtil.swift in Sources */,
 				3AB24444259844BB003C0CDA /* ClipWindow.swift in Sources */,
 				3A9EA82D259EC6220000962E /* PinWindowController.swift in Sources */,
 				3AB24447259844CD003C0CDA /* ClipView.swift in Sources */,

@@ -6,7 +6,7 @@ Have not been tested on multi-screen environment.
 
 # Usage
 
-Default hot key is `cmd+caps+A`
+Default hot key is `cmd+shift+A`
 
 # Acknowledge
 
@@ -16,6 +16,5 @@ Default hot key is `cmd+caps+A`
 
 # TODO
 
-- Support highlight rectangle editing.
 - Support multi-screen environment.
 - Add basic tools for editing pinned views.

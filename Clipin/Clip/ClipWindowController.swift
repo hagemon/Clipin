@@ -14,13 +14,14 @@ class ClipWindowController: NSWindowController {
     var lastPoint: NSPoint?
     var clipView: ClipView?
     
-    var lastRect: NSRect = NSRect.zero
+    var lastRect: NSRect?
     var highlightRect: NSRect?
     var screenImage: NSImage?
-    var isDragging = false
+//    var isDragging = false
     
-    var isActive = false
-    
+    var selectDotType: DotType = .none
+    var selectDot: NSPoint = .zero
+        
     private var lock = false
 
     override func windowDidLoad() {
@@ -52,18 +53,6 @@ class ClipWindowController: NSWindowController {
     }
     
     func highlight() {
-//        if self.highlightRect == nil {
-//            return
-//        }
-//        else if self.screenImage != nil && self.lastRect.equalTo(self.highlightRect!){
-//            if self.clipView != nil && !self.clipView!.showDots {
-//
-//            }
-//            return
-//        }
-//        else if self.screenImage == nil && self.clipView?.image == nil{
-//            return
-//        }
         guard let highlightRect = self.highlightRect,
               let image = self.screenImage,
               let view = self.clipView
@@ -78,7 +67,7 @@ class ClipWindowController: NSWindowController {
             let rect = self.window?.convertFromScreen(highlightRect)
             view.drawingRect = rect
             view.needsDisplay = true
-            self.lastRect = highlightRect
+//            self.lastRect = highlightRect
         }
     }
     
@@ -100,9 +89,27 @@ class ClipWindowController: NSWindowController {
             ClipManager.shared.status = .start
             self.startPoint = location
         case .select:
-            guard let rect = self.highlightRect, rect.contains(location) else { return }
-            self.isDragging = true
+            guard let rect = self.highlightRect,
+                  let view = self.clipView,
+                  rect.insetBy(dx: -5, dy: -5).contains(location)
+            else { return }
+            for (path, type) in view.paths {
+                if path.bounds.insetBy(dx: -5, dy: -5).contains(location) {
+                    self.selectDotType = type
+                    self.selectDot = path.bounds.center()
+                    break
+                }
+            }
+            if self.selectDotType != .none {
+                ClipManager.shared.status = .adjust
+            } else {
+                ClipManager.shared.status = .drag
+            }
             self.lastPoint = location
+        case .drag:
+            break
+        case .adjust:
+            break
         default:
             return
         }
@@ -111,16 +118,22 @@ class ClipWindowController: NSWindowController {
     override func mouseUp(with event: NSEvent) {
         switch ClipManager.shared.status {
         case .start:
-            if self.highlightRect != nil {
-                ClipManager.shared.status = .select
-                self.clipView!.showDots = true
-                self.highlight()
-            } else {
+            guard let rect = self.highlightRect, let view = self.clipView else {
                 ClipManager.shared.status = .ready
+                return
             }
+            ClipManager.shared.status = .select
+            view.showDots = true
+            self.lastRect = rect
+            self.highlight()
         case .select:
-            self.isDragging = false
-            self.startPoint = self.highlightRect!.origin
+            break
+        case .drag, .adjust:
+            guard let rect = self.highlightRect else { return }
+            self.startPoint = rect.origin
+            self.selectDotType = .none
+            self.lastRect = rect
+            ClipManager.shared.status = .select
         default:
             return
         }
@@ -134,17 +147,58 @@ class ClipWindowController: NSWindowController {
         let location = event.locationInWindow
         switch ClipManager.shared.status {
         case .start:
-            self.highlightRect = NSUnionRect(NSRect(origin: self.startPoint!, size: CGSize(width: 1, height: 1)), NSRect(origin: location, size: CGSize(width: 1, height: 1)))
+            guard let start = self.startPoint else { return }
+            self.highlightRect = RectUtil.getRect(aPoint: start, bPoint: location)
             self.highlight()
-        case .select:
-            guard var rect = self.highlightRect,
-                  self.isDragging
+        case .adjust:
+            guard let lastRect = self.lastRect,
+                  self.selectDotType != .none
             else { break }
-            // bounds detection
+            let dx = location.x - self.selectDot.x
+            let dy = location.y - self.selectDot.y
+            var rect: NSRect = .zero
+            switch self.selectDotType {
+            case .corner:
+                let symPoint = lastRect.symmetricalPoint(point: self.selectDot)
+                rect = RectUtil.getRect(aPoint: symPoint, bPoint: location)
+            case .top:
+                rect = RectUtil.getRect(
+                    aPoint: lastRect.origin,
+                    bPoint: self.selectDot.offsetBy(dx: lastRect.width/2, dy: dy)
+                )
+            case .bottom:
+                rect = RectUtil.getRect(
+                    aPoint: lastRect.origin.offsetBy(dx: 0, dy: lastRect.height),
+                    bPoint: self.selectDot.offsetBy(dx: lastRect.width/2, dy: dy)
+                )
+            case .left:
+                rect = RectUtil.getRect(
+                    aPoint: lastRect.origin.offsetBy(dx: dx, dy: 0),
+                    bPoint: self.selectDot.offsetBy(dx: lastRect.width, dy: lastRect.height/2)
+                )
+            case .right:
+                rect = RectUtil.getRect(
+                    aPoint: lastRect.origin,
+                    bPoint: self.selectDot.offsetBy(dx: dx, dy: lastRect.height/2)
+                )
+            
+            default:
+                break
+            }
+            self.highlightRect = rect
+            self.lastPoint = location
+            self.startPoint = rect.origin
+            self.highlight()
+        case .drag:
+            guard var rect = self.highlightRect,
+                  let window = self.window
+            else { break }
+            
             var dx = location.x - self.lastPoint!.x
             var dy = location.y - self.lastPoint!.y
+
             let offsetRect = rect.offsetBy(dx: dx, dy: dy)
-            switch self.detectOverflow(rect: offsetRect) {
+            switch RectUtil.detectOverflow(rect: offsetRect, in: window) {
             case .bothOverflow:
                 dx = 0
                 dy = 0
@@ -156,6 +210,7 @@ class ClipWindowController: NSWindowController {
                 break
             }
             rect = rect.offsetBy(dx: dx, dy: dy)
+            
             self.highlightRect = rect
             self.lastPoint = location
             self.startPoint = rect.origin
@@ -164,42 +219,6 @@ class ClipWindowController: NSWindowController {
             break
         }
         self.lock = false
-    }
-    
-    private func detectOverflow(rect: NSRect) -> RectIssue {
-        let origin = rect.origin
-        let points = [origin,
-                      origin.offsetBy(dx: rect.width, dy: 0),
-                      origin.offsetBy(dx: 0, dy: rect.height),
-                      origin.offsetBy(dx: rect.width, dy: rect.height)
-        ]
-        guard let window = self.window else { return .normal }
-        var xFlag = false
-        var yFlag = false
-        for p in points {
-            if p.x < 0 || p.x > window.frame.width{
-                xFlag = true
-            }
-            if p.y < 0 || p.y > window.frame.height{
-                yFlag = true
-            }
-        }
-        if xFlag && yFlag {
-            return .bothOverflow
-        }else if xFlag {
-            return .xOverflow
-        }else if yFlag {
-            return .yOverflow
-        }else{
-            return .normal
-        }
-    }
-    
-    enum RectIssue {
-        case xOverflow
-        case yOverflow
-        case bothOverflow
-        case normal
     }
     
 }

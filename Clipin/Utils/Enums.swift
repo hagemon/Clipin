@@ -26,3 +26,19 @@ enum NotiNames: String {
     case pinNormal = "pinNormal"
 }
 
+enum DotType {
+    case corner
+    case top
+    case bottom
+    case right
+    case left
+    case none
+}
+
+enum RectIssue {
+    case xOverflow
+    case yOverflow
+    case bothOverflow
+    case normal
+}
+
