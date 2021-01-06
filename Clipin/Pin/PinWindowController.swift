@@ -2,7 +2,7 @@
 //  PinWindowController.swift
 //  Clipin
 //
-//  Created by 一折 on 2021/1/1.
+//  Created by hagemon on 2021/1/1.
 //
 
 import Cocoa
@@ -10,10 +10,6 @@ import Cocoa
 class PinWindowController: NSWindowController {
 
     var pinWindow: PinWindow?
-        
-    override init(window: NSWindow?) {
-        super.init(window: window)
-    }
     
     init(window: PinWindow) {
         super.init(window: window)

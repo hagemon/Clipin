@@ -2,7 +2,7 @@
 //  RectUtil.swift
 //  Clipin
 //
-//  Created by 一折 on 2021/1/4.
+//  Created by hagemon on 2021/1/4.
 //
 
 import Cocoa

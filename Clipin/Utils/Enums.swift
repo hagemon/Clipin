@@ -1,8 +1,8 @@
 //
-//  extensions.swift
+//  Enum.swift
 //  Clipin
 //
-//  Created by 一折 on 2020/12/30.
+//  Created by hagemon on 2020/12/30.
 //
 
 import Foundation

@@ -2,7 +2,7 @@
 //  Extentions.swift
 //  Clipin
 //
-//  Created by 一折 on 2020/12/31.
+//  Created by hagemon on 2020/12/31.
 //
 
 import Cocoa

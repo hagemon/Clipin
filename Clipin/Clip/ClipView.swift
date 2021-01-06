@@ -2,7 +2,7 @@
 //  ClipView.swift
 //  Clipin
 //
-//  Created dx 一折 on 2020/12/27.
+//  Created by hagemon on 2020/12/27.
 //
 
 import Cocoa
@@ -19,10 +19,10 @@ class ClipView: NSView {
         super.draw(dirtyRect)
 
         // Drawing code here.
-        guard let image = self.image else {
+        guard let image = self.image, let drawingRect = self.drawingRect else {
             return
         }
-        var rect = NSIntersectionRect(self.drawingRect!, self.bounds)
+        var rect = NSIntersectionRect(drawingRect, self.bounds)
         rect = NSIntegralRect(rect)
         image.draw(in: rect, from: rect, operation: .sourceOver, fraction: 1.0)
         if self.showDots {

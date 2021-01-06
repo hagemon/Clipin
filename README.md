@@ -1,6 +1,6 @@
 # Introduction
 
-A simple tool to capture and pin regions of screen for mac OS.
+A simple tool to capture and pin regions of screen for macOS.
 
 Preserving important things on your desktop.
 
@@ -22,5 +22,6 @@ Default hot key is `cmd+shift+A`
 
 # TODO
 
-- Support multi-screen environment.
+- Buy a new display and support multi-screen environment.
+- Support automatically window selection.
 - Add basic tools for editing pinned view.

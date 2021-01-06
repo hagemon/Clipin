@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  Clipin
 //
-//  Created by 一折 on 2020/12/19.
+//  Created by hagemon on 2020/12/19.
 //
 
 import Cocoa

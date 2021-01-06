@@ -2,7 +2,7 @@
 //  PinWindow.swift
 //  Clipin
 //
-//  Created by 一折 on 2021/1/1.
+//  Created by hagemon on 2021/1/1.
 //
 
 import Cocoa

@@ -2,7 +2,7 @@
 //  ClipWindowController.swift
 //  Clipin
 //
-//  Created by 一折 on 2020/12/27.
+//  Created by hagemon on 2020/12/27.
 //
 
 import Cocoa
@@ -53,13 +53,14 @@ class ClipWindowController: NSWindowController {
     func highlight() {
         guard let highlightRect = self.highlightRect,
               let image = self.screenImage,
-              let view = self.clipView
+              let view = self.clipView,
+              let window = self.window
         else { return }
         DispatchQueue.main.async {
             if view.image == nil {
                 view.image = image
             }
-            let rect = self.window?.convertFromScreen(highlightRect)
+            let rect = window.convertFromScreen(highlightRect)
             view.drawingRect = rect
             view.needsDisplay = true
         }

@@ -2,7 +2,7 @@
 //  ClipManager.swift
 //  Clipin
 //
-//  Created by 一折 on 2020/12/27.
+//  Created by hagemon on 2020/12/27.
 //
 
 import Cocoa
