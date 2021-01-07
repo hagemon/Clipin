@@ -21,8 +21,6 @@ class ClipWindowController: NSWindowController {
     var selectDotType: DotType = .none
     var selectDot: NSPoint = .zero
         
-    private var lock = false
-
     override func windowDidLoad() {
         super.windowDidLoad()
     }
@@ -53,16 +51,14 @@ class ClipWindowController: NSWindowController {
     }
     
     func highlight() {
-        guard let highlightRect = self.highlightRect,
+        guard let rect = self.highlightRect,
               let image = self.screenImage,
-              let view = self.clipView,
-              let window = self.window
+              let view = self.clipView
         else { return }
         DispatchQueue.main.async {
             if view.image == nil {
                 view.image = image
             }
-            let rect = window.convertFromScreen(highlightRect)
             view.drawingRect = rect
             view.needsDisplay = true
         }
@@ -74,9 +70,12 @@ class ClipWindowController: NSWindowController {
         else {
             return
         }
-        guard let bitmapRep = view.bitmapImageRepForCachingDisplay(in: rect) else {return}
+        guard let bitmapRep = view.bitmapImageRepForCachingDisplay(in: rect),
+              let window = self.window,
+              let screen = window.screen
+        else {return}
         view.cacheDisplay(in: rect, to: bitmapRep)
-        PinManager.shared.pin(rep: bitmapRep, rect: rect)
+        PinManager.shared.pin(rep: bitmapRep, rect: rect, screenOrigin: screen.visibleFrame.origin)
     }
     
     override func mouseDown(with event: NSEvent) {
@@ -137,10 +136,6 @@ class ClipWindowController: NSWindowController {
     }
     
     override func mouseDragged(with event: NSEvent) {
-        guard !self.lock else {
-            return
-        }
-        self.lock = true
         let location = event.locationInWindow
         switch ClipManager.shared.status {
         case .start:
@@ -215,7 +210,6 @@ class ClipWindowController: NSWindowController {
         default:
             break
         }
-        self.lock = false
     }
     
 }

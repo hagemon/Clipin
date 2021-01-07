@@ -29,7 +29,7 @@ class ClipManager {
     func start() {
         NotificationCenter.default.post(name: NotiNames.pinNormal.name, object: nil)
         
-        guard let info = CGWindowListCopyWindowInfo(.optionOnScreenOnly, kCGNullWindowID) else { return }
+//        guard let info = CGWindowListCopyWindowInfo(.optionOnScreenOnly, kCGNullWindowID) else { return }
 //        print(info)
 //        for i in 0...CFArrayGetCount(info) {
 //            let windowInfo = CFArrayGetValueAtIndex(info, i)

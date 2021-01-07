@@ -24,13 +24,14 @@ class PinManager: NSObject {
         }
     }
     
-    func pin(rep: NSBitmapImageRep, rect:NSRect) {
+    func pin(rep: NSBitmapImageRep, rect:NSRect, screenOrigin:NSPoint) {
         let image = NSImage(size: rect.size)
         image.addRepresentation(rep)
         let view = PinView(image: image)
         let window = PinWindow(rect: rect, contentView: view)
         let controller = PinWindowController(window: window)
         self.controllers.append(controller)
+        window.setFrameOrigin(screenOrigin.offsetBy(dx: rect.origin.x, dy: rect.origin.y))
         controller.showWindow(nil)
         NotificationCenter.default.post(name: NotiNames.pinEnd.name, object: nil)
     }
@@ -44,6 +45,14 @@ class PinManager: NSObject {
         } catch {
             print("error:\(error)")
         }
+    }
+    
+    func saveImage(cgImage: CGImage) {
+        let url = self.getURL() as CFURL
+        guard let dest = CGImageDestinationCreateWithURL(url, kUTTypePNG, 1, nil) else { return }
+        CGImageDestinationAddImage(dest, cgImage, nil)
+        CGImageDestinationFinalize(dest)
+        print("save image to \(url)")
     }
     
     private func getURL() -> URL {
