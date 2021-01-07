@@ -18,10 +18,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         NSEvent.addLocalMonitorForEvents(matching: .keyDown, handler: {
             (event) -> NSEvent? in
-            if ClipManager.shared.status != .off && event.keyCode == kVK_Escape {
+            let status = ClipManager.shared.status
+            if status != .off && event.keyCode == kVK_Escape {
                 ClipManager.shared.end()
             }
-            if ClipManager.shared.status == .select && event.keyCode == kVK_Return {
+            if (status == .ready || status == .select) && event.keyCode == kVK_Return {
                 NotificationCenter.default.post(name: NotiNames.clipEnd.name, object: self, userInfo: nil)
             }
             return nil
@@ -48,6 +49,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     @objc func showMenu() {
+        ClipManager.shared.start()
     }
 
 

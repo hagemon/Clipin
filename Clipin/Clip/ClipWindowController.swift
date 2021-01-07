@@ -30,6 +30,7 @@ class ClipWindowController: NSWindowController {
     init(window: ClipWindow) {
         super.init(window: window)
         self.window = window
+        NotificationCenter.default.addObserver(self, selector: #selector(self.done), name: NotiNames.clipEnd.name, object: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -42,9 +43,10 @@ class ClipWindowController: NSWindowController {
     
     func capture(_ screen:NSScreen) {
         guard let window = self.window else { return }
-        NotificationCenter.default.addObserver(self, selector: #selector(self.done), name: NotiNames.clipEnd.name, object: nil)
-        let cgScreenImage = CGDisplayCreateImage(CGMainDisplayID())
-        self.screenImage = NSImage(cgImage: cgScreenImage!, size: screen.frame.size)
+        guard let displayID = screen.deviceDescription[NSDeviceDescriptionKey(rawValue: "NSScreenNumber")] as? CGDirectDisplayID,
+              let cgScreenImage = CGDisplayCreateImage(displayID)
+        else { return }
+        self.screenImage = NSImage(cgImage: cgScreenImage, size: screen.frame.size)
         window.backgroundColor = NSColor(white: 0, alpha: 0.5)
         self.clipView = window.contentView as? ClipView
         self.showWindow(nil)

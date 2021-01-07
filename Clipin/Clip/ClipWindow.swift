@@ -14,4 +14,5 @@ class ClipWindow: NSWindow {
         self.contentView = contentView
         self.level = .statusBar
     }
+    
 }
