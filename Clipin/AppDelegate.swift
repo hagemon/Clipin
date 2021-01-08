@@ -16,6 +16,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let hotKey = HotKey(key: .a, modifiers: [.shift, .command])
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+                
         NSEvent.addLocalMonitorForEvents(matching: .keyDown, handler: {
             (event) -> NSEvent? in
             let status = ClipManager.shared.status
@@ -29,22 +30,28 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         })
         
         self.hotKey.keyUpHandler = {
+            guard CGPreflightScreenCaptureAccess() else {
+                let alert = NSAlert()
+                alert.messageText = "Require screen record access."
+                alert.runModal()
+                CGRequestScreenCaptureAccess()
+                return
+            }
             guard ClipManager.shared.status == .off else {
                 return
             }
             self.capture(NSDate.now.timestamp())
         }
         
-        
         guard let button = self.statusItem.button else { return }
         button.image = NSImage(named: NSImage.Name("StatusBarIcon"))
-//        button.action = #selector(showMenu)
         
         self.statusItem.menu = NSMenu(title: "menu")
         guard let menu = self.statusItem.menu else { return }
         menu.addItem(withTitle: "Preferences", action: nil, keyEquivalent: "p")
         menu.addItem(NSMenuItem.separator())
         menu.addItem(withTitle: "Quit", action: #selector(quit), keyEquivalent: "q")
+        
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
@@ -54,11 +61,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func capture(_ dest:String) -> Void {
         ClipManager.shared.start()
     }
-    
-    @objc func showMenu() {
-        
-    }
-    
+
     @objc func quit() {
         NSApp.terminate(nil)
     }
