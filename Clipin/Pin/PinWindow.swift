@@ -33,6 +33,6 @@ class PinWindow: NSWindow {
     
     @objc func pinNormal() {
         self.level = .normal
-    }    
+    }
     
 }

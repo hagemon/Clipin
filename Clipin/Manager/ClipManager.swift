@@ -35,6 +35,7 @@ class ClipManager {
 //            let windowInfo = CFArrayGetValueAtIndex(info, i)
 //            print(windowInfo!)
 //        }
+        
         NSApplication.shared.activate(ignoringOtherApps: true)
         
         for screen in NSScreen.screens {

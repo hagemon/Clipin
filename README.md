@@ -11,11 +11,9 @@ My development blog can be found [here](https://www.notion.so/hagemon/Clipin-Mac
 # Usage and feature
 
 - Start with default hot key `cmd+shift+A`.
-- Select region with click and drag.
-- Move region by clicking inside it and drag.
-- Adjust region by clicking dots around and drag.
-- Press Enter to pin the region after selection.
-- Multiple screen supported.
+- Create a region by clicking & dragging.
+- Press `Enter` to pin the region or `ESC` to quit.
+- Support multiple screens.
 
 # Acknowledge
 
@@ -26,3 +24,4 @@ My development blog can be found [here](https://www.notion.so/hagemon/Clipin-Mac
 
 - Support automatically window selection.
 - Add basic tools for editing pinned view.
+- Add menu items such as preferences & update.

@@ -10,6 +10,7 @@ import Cocoa
 class PinWindowController: NSWindowController {
 
     var pinWindow: PinWindow?
+    var keyListener:Any?
     
     init(window: PinWindow) {
         super.init(window: window)
@@ -17,7 +18,6 @@ class PinWindowController: NSWindowController {
         guard let window = self.window, let view = window.contentView else { return }
         let trackingArea = NSTrackingArea(rect: view.frame, options: [.activeAlways, .mouseEnteredAndExited], owner: self, userInfo: [:])
         view.addTrackingArea(trackingArea)
-        
     }
     
     required init?(coder: NSCoder) {

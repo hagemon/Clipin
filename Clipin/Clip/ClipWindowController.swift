@@ -70,10 +70,13 @@ class ClipWindowController: NSWindowController {
         else {
             return
         }
+        view.showDots = false
+        view.needsDisplay = true
         guard let bitmapRep = view.bitmapImageRepForCachingDisplay(in: rect),
               let window = self.window,
               let screen = window.screen
         else {return}
+
         view.cacheDisplay(in: rect, to: bitmapRep)
         PinManager.shared.pin(rep: bitmapRep, rect: rect, screenOrigin: screen.visibleFrame.origin)
     }
