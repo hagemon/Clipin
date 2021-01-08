@@ -11,6 +11,7 @@ class PinManager: NSObject {
     static let shared = PinManager()
     private let root = "./ImageStorage/"
     var controllers: [PinWindowController] = []
+    var activeWindow: PinWindow?
     
     private override init() {
         super.init()

@@ -23,9 +23,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             if status != .off && event.keyCode == kVK_Escape {
                 ClipManager.shared.end()
             }
-            if (status == .ready || status == .select) && event.keyCode == kVK_Return {
+            else if (status == .ready || status == .select) && event.keyCode == kVK_Return {
                 NotificationCenter.default.post(name: NotiNames.clipEnd.name, object: self, userInfo: nil)
             }
+            else if event.modifierFlags.contains(.command) && event.keyCode == kVK_ANSI_W {
+                for controller in PinManager.shared.controllers {
+                    guard let window = controller.window else { continue }
+                    if window.isMainWindow {
+                        window.close()
+                        PinManager.shared.controllers.remove(at: PinManager.shared.controllers.firstIndex(of: controller)!)
+                        break
+                    }
+                }
+            }
+            
             return nil
         })
         

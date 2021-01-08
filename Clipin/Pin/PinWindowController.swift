@@ -10,7 +10,6 @@ import Cocoa
 class PinWindowController: NSWindowController {
 
     var pinWindow: PinWindow?
-    var keyListener:Any?
     
     init(window: PinWindow) {
         super.init(window: window)
