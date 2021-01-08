@@ -156,6 +156,10 @@ class ClipWindowController: NSWindowController {
             case .corner:
                 let symPoint = lastRect.symmetricalPoint(point: self.selectDot)
                 rect = RectUtil.getRect(aPoint: symPoint, bPoint: location)
+//                rect = RectUtil.getRect(
+//                    aPoint: self.selectDot.offsetBy(dx: <#T##CGFloat#>, dy: <#T##CGFloat#>),
+//                    bPoint: location
+//                )
             case .top:
                 rect = RectUtil.getRect(
                     aPoint: lastRect.origin,

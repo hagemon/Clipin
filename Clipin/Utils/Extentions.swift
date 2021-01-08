@@ -28,6 +28,6 @@ extension NSRect {
     
     func symmetricalPoint(point: NSPoint) -> NSPoint {
         let center = self.center()
-        return NSPoint(x: 2*center.x-point.x, y: 2*center.y-point.y)
+        return NSPoint(x: Int(2*center.x-point.x), y: Int(2*center.y-point.y))
     }
 }
