@@ -35,9 +35,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self.capture(NSDate.now.timestamp())
         }
         
+        
         guard let button = self.statusItem.button else { return }
         button.image = NSImage(named: NSImage.Name("StatusBarIcon"))
-        button.action = #selector(showMenu)
+//        button.action = #selector(showMenu)
+        
+        self.statusItem.menu = NSMenu(title: "menu")
+        guard let menu = self.statusItem.menu else { return }
+        menu.addItem(withTitle: "Preferences", action: nil, keyEquivalent: "p")
+        menu.addItem(NSMenuItem.separator())
+        menu.addItem(withTitle: "Quit", action: #selector(quit), keyEquivalent: "q")
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
@@ -49,7 +56,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     @objc func showMenu() {
-        ClipManager.shared.start()
+        
+    }
+    
+    @objc func quit() {
+        NSApp.terminate(nil)
     }
 
 
