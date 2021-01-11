@@ -13,64 +13,30 @@ import HotKey
 class AppDelegate: NSObject, NSApplicationDelegate {
     
     let statusItem = NSStatusBar.system.statusItem(withLength:NSStatusItem.squareLength)
-    let hotKey = HotKey(key: .a, modifiers: [.shift, .command])
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-                
-        NSEvent.addLocalMonitorForEvents(matching: .keyDown, handler: {
-            (event) -> NSEvent? in
-            let status = ClipManager.shared.status
-            if status != .off && event.keyCode == kVK_Escape {
-                ClipManager.shared.end()
-            }
-            else if (status == .ready || status == .select) && event.keyCode == kVK_Return {
-                NotificationCenter.default.post(name: NotiNames.clipEnd.name, object: self, userInfo: nil)
-            }
-            else if event.modifierFlags.contains(.command) && event.keyCode == kVK_ANSI_W {
-                for controller in PinManager.shared.controllers {
-                    guard let window = controller.window else { continue }
-                    if window.isMainWindow {
-                        window.close()
-                        PinManager.shared.controllers.remove(at: PinManager.shared.controllers.firstIndex(of: controller)!)
-                        break
-                    }
-                }
-            }
-            
-            return nil
-        })
         
-        self.hotKey.keyUpHandler = {
-            guard CGPreflightScreenCaptureAccess() else {
-                let alert = NSAlert()
-                alert.messageText = "Require screen record access."
-                alert.runModal()
-                CGRequestScreenCaptureAccess()
-                return
-            }
-            guard ClipManager.shared.status == .off else {
-                return
-            }
-            self.capture(NSDate.now.timestamp())
-        }
-        
+        KeyMonitorManager.shared.registerHotKey(key: Storage.getKey(), modifiers: Storage.getModifierFlags())
+                        
         guard let button = self.statusItem.button else { return }
         button.image = NSImage(named: NSImage.Name("StatusBarIcon"))
         
         self.statusItem.menu = NSMenu(title: "menu")
         guard let menu = self.statusItem.menu else { return }
-        menu.addItem(withTitle: "Preferences", action: nil, keyEquivalent: "p")
+        menu.addItem(withTitle: "Preferences", action: #selector(self.openPreferences), keyEquivalent: "p")
         menu.addItem(NSMenuItem.separator())
-        menu.addItem(withTitle: "Quit", action: #selector(quit), keyEquivalent: "q")
-        
+        menu.addItem(withTitle: "Quit", action: #selector(self.quit), keyEquivalent: "q")
+//        self.openPreferences()
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
     }
     
-    func capture(_ dest:String) -> Void {
-        ClipManager.shared.start()
+    @objc func openPreferences() {
+        let controller = PreferencesWindowController(windowNibName: "Preferences")
+        NSApplication.shared.activate(ignoringOtherApps: true)
+        controller.showWindow(nil)
     }
 
     @objc func quit() {

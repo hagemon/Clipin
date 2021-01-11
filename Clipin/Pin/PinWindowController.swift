@@ -6,6 +6,7 @@
 //
 
 import Cocoa
+import Carbon
 
 class PinWindowController: NSWindowController {
 
@@ -36,6 +37,12 @@ class PinWindowController: NSWindowController {
     override func mouseExited(with event: NSEvent) {
         guard let window = self.pinWindow else { return }
         window.hideTitle()
+    }
+    
+    override func keyDown(with event: NSEvent) {
+        if event.modifierFlags.contains(.command) && event.keyCode == kVK_ANSI_W {
+            self.close()
+        }
     }
         
 }

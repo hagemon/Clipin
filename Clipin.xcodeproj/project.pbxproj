@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A0B3EBD25AB4D2200C1C202 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A0B3EBC25AB4D2200C1C202 /* Storage.swift */; };
+		3A0B3EC025ABD24200C1C202 /* KeyMonitorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A0B3EBF25ABD24200C1C202 /* KeyMonitorManager.swift */; };
 		3A1D6D10258E01F90096A416 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1D6D0F258E01F90096A416 /* AppDelegate.swift */; };
 		3A1D6D14258E01FB0096A416 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A1D6D13258E01FB0096A416 /* Assets.xcassets */; };
 		3A1D6D17258E01FB0096A416 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A1D6D15258E01FB0096A416 /* Main.storyboard */; };
@@ -22,9 +24,14 @@
 		3AB24444259844BB003C0CDA /* ClipWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB24443259844BA003C0CDA /* ClipWindow.swift */; };
 		3AB24447259844CD003C0CDA /* ClipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB24446259844CD003C0CDA /* ClipView.swift */; };
 		3AB2444F2598463B003C0CDA /* ClipWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB2444E2598463B003C0CDA /* ClipWindowController.swift */; };
+		3AE1F3FF25AAA01300A38694 /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE1F3FD25AAA01300A38694 /* PreferencesWindowController.swift */; };
+		3AE1F40325AAA0DD00A38694 /* PreferencesWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE1F40225AAA0DD00A38694 /* PreferencesWindow.swift */; };
+		3AE1F41025AAA33100A38694 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AE1F40F25AAA33000A38694 /* Preferences.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3A0B3EBC25AB4D2200C1C202 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
+		3A0B3EBF25ABD24200C1C202 /* KeyMonitorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyMonitorManager.swift; sourceTree = "<group>"; };
 		3A1D6D0C258E01F90096A416 /* Clipin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Clipin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A1D6D0F258E01F90096A416 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3A1D6D13258E01FB0096A416 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -42,6 +49,9 @@
 		3AB24443259844BA003C0CDA /* ClipWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipWindow.swift; sourceTree = "<group>"; };
 		3AB24446259844CD003C0CDA /* ClipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipView.swift; sourceTree = "<group>"; };
 		3AB2444E2598463B003C0CDA /* ClipWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipWindowController.swift; sourceTree = "<group>"; };
+		3AE1F3FD25AAA01300A38694 /* PreferencesWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesWindowController.swift; sourceTree = "<group>"; };
+		3AE1F40225AAA0DD00A38694 /* PreferencesWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesWindow.swift; sourceTree = "<group>"; };
+		3AE1F40F25AAA33000A38694 /* Preferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +89,7 @@
 				3AB2444B259844DD003C0CDA /* Manager */,
 				3AB2444A259844D8003C0CDA /* Pin */,
 				3AB24449259844D0003C0CDA /* Clip */,
+				3AE1F3F025A9FCFF00A38694 /* Preferences */,
 				3A1D6D0F258E01F90096A416 /* AppDelegate.swift */,
 				3A1D6D13258E01FB0096A416 /* Assets.xcassets */,
 				3A1D6D15258E01FB0096A416 /* Main.storyboard */,
@@ -123,8 +134,20 @@
 			children = (
 				3AB244382598420F003C0CDA /* ClipManager.swift */,
 				3AB2443B2598421A003C0CDA /* PinManager.swift */,
+				3A0B3EBC25AB4D2200C1C202 /* Storage.swift */,
+				3A0B3EBF25ABD24200C1C202 /* KeyMonitorManager.swift */,
 			);
 			path = Manager;
+			sourceTree = "<group>";
+		};
+		3AE1F3F025A9FCFF00A38694 /* Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				3AE1F3FD25AAA01300A38694 /* PreferencesWindowController.swift */,
+				3AE1F40225AAA0DD00A38694 /* PreferencesWindow.swift */,
+				3AE1F40F25AAA33000A38694 /* Preferences.xib */,
+			);
+			path = Preferences;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -191,6 +214,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A1D6D14258E01FB0096A416 /* Assets.xcassets in Resources */,
+				3AE1F41025AAA33100A38694 /* Preferences.xib in Resources */,
 				3A1D6D17258E01FB0096A416 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -202,6 +226,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3AE1F40325AAA0DD00A38694 /* PreferencesWindow.swift in Sources */,
 				3AB2444F2598463B003C0CDA /* ClipWindowController.swift in Sources */,
 				3AB244392598420F003C0CDA /* ClipManager.swift in Sources */,
 				3A9EA834259EC6C00000962E /* PinView.swift in Sources */,
@@ -211,9 +236,12 @@
 				3AB24444259844BB003C0CDA /* ClipWindow.swift in Sources */,
 				3A9EA82D259EC6220000962E /* PinWindowController.swift in Sources */,
 				3AB24447259844CD003C0CDA /* ClipView.swift in Sources */,
+				3AE1F3FF25AAA01300A38694 /* PreferencesWindowController.swift in Sources */,
 				3A9EA831259EC63C0000962E /* PinWindow.swift in Sources */,
 				3A1D6D10258E01F90096A416 /* AppDelegate.swift in Sources */,
 				3A9EA829259DE8990000962E /* Extentions.swift in Sources */,
+				3A0B3EBD25AB4D2200C1C202 /* Storage.swift in Sources */,
+				3A0B3EC025ABD24200C1C202 /* KeyMonitorManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

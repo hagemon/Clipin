@@ -11,7 +11,7 @@ class ClipView: NSView {
     
     var image: NSImage?
     var drawingRect: NSRect?
-    var showDots = false
+    var showDots = true
     var paths: [(NSBezierPath, DotType)] = []
 
     override func draw(_ dirtyRect: NSRect) {
@@ -26,6 +26,7 @@ class ClipView: NSView {
         rect = NSIntegralRect(rect)
         image.draw(in: rect, from: rect, operation: .sourceOver, fraction: 1.0)
         if self.showDots {
+            self.drawEdge(rect: rect)
             self.drawDots(rect: rect)
         }
 
@@ -42,6 +43,15 @@ class ClipView: NSView {
             NSColor.white.set()
             path.stroke()
         }
+    }
+    
+    private func drawEdge(rect: NSRect) {
+        let path = NSBezierPath(rect: rect)
+        path.lineWidth = 2
+        let dash: [CGFloat] = [5.0, 5.0]
+        path.setLineDash(dash, count: dash.count, phase: 0)
+        NSColor(deviceRed: 196/255.0, green: 78/255.0, blue: 65/255.0, alpha: 0.8).set()
+        path.stroke()
     }
     
     func getDotsCoord(with rect:NSRect, radius: CGFloat) -> [(NSPoint, DotType)] {

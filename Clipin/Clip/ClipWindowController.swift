@@ -92,6 +92,7 @@ class ClipWindowController: NSWindowController {
                   let view = self.clipView,
                   rect.insetBy(dx: -5, dy: -5).contains(location)
             else { return }
+            view.showDots = true
             for (path, type) in view.paths {
                 if path.bounds.insetBy(dx: -5, dy: -5).contains(location) {
                     self.selectDotType = type
@@ -117,12 +118,11 @@ class ClipWindowController: NSWindowController {
     override func mouseUp(with event: NSEvent) {
         switch ClipManager.shared.status {
         case .start:
-            guard let rect = self.highlightRect, let view = self.clipView else {
+            guard let rect = self.highlightRect else {
                 ClipManager.shared.status = .ready
                 return
             }
             ClipManager.shared.status = .select
-            view.showDots = true
             self.lastRect = rect
             self.highlight()
         case .select:
@@ -190,11 +190,12 @@ class ClipWindowController: NSWindowController {
             self.highlight()
         case .drag:
             guard var rect = self.highlightRect,
+                  let lastPoint = self.lastPoint,
                   let window = self.window
             else { break }
             
-            var dx = location.x - self.lastPoint!.x
-            var dy = location.y - self.lastPoint!.y
+            var dx = location.x - lastPoint.x
+            var dy = location.y - lastPoint.y
 
             let offsetRect = rect.offsetBy(dx: dx, dy: dy)
             switch RectUtil.detectOverflow(rect: offsetRect, in: window) {
@@ -218,5 +219,4 @@ class ClipWindowController: NSWindowController {
             break
         }
     }
-    
 }

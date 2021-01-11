@@ -6,6 +6,8 @@
 //
 
 import Cocoa
+import Carbon
+import HotKey
 
 class ClipManager {
     
@@ -18,12 +20,34 @@ class ClipManager {
             // print(self.status)
         }
     }
+    var monitor: Any?
+    var hotKey: HotKey = HotKey(key: .a, modifiers: [.command, .shift])
     
     private init() {
+        self.registerHotKey(key: Storage.getKey(), modifiers: Storage.getModifierFlags())
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(self.end),
                                                name: NotiNames.pinEnd.name,
                                                object: nil)
+    }
+    
+    func registerHotKey(key: Key, modifiers: NSEvent.ModifierFlags) {
+        self.hotKey = HotKey(key: key, modifiers: modifiers)
+        self.hotKey.keyDownHandler = {
+            guard CGPreflightScreenCaptureAccess() else {
+                let alert = NSAlert()
+                alert.messageText = "Require screen record access."
+                alert.runModal()
+                CGRequestScreenCaptureAccess()
+                return
+            }
+            guard ClipManager.shared.status == .off else {
+                return
+            }
+            ClipManager.shared.start()
+        }
+        Storage.saveKey(key: key)
+        Storage.saveModifierFlags(modifiers: modifiers)
     }
     
     func start() {
@@ -37,9 +61,9 @@ class ClipManager {
 //        }
         
         NSApplication.shared.activate(ignoringOtherApps: true)
+        KeyMonitorManager.shared.registerClipMonitor()
         
         for screen in NSScreen.screens {
-            
             let view = ClipView(frame: screen.frame)
             let clipWindow = ClipWindow(contentRect: screen.frame, contentView: view)
             let clipWindowController = ClipWindowController(window: clipWindow)
@@ -56,6 +80,7 @@ class ClipManager {
             controller.window?.orderOut(nil)
         }
         self.controllers.removeAll()
+        KeyMonitorManager.shared.removeClipMonitor()
         self.status = .off
     }
     
