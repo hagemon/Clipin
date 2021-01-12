@@ -44,4 +44,22 @@ class RectUtil: NSObject {
             return .normal
         }
     }
+    
+    static func correctCGWindowRect(rect: NSRect, on screen:NSScreen) -> NSRect {
+        let origin = screen.frame.origin
+        guard var screen = NSScreen.main else {return .zero}
+        for s in NSScreen.screens {
+            if s.frame.origin == .zero {
+                screen = s
+                break
+            }
+        }
+        return NSRect(
+            origin: NSPoint(
+                x: rect.origin.x-origin.x,
+                y: screen.frame.height - origin.y - rect.origin.y - rect.height
+            ),
+            size: rect.size
+        )
+    }
 }

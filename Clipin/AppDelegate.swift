@@ -26,7 +26,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(withTitle: "Preferences", action: #selector(self.openPreferences), keyEquivalent: "p")
         menu.addItem(NSMenuItem.separator())
         menu.addItem(withTitle: "Quit", action: #selector(self.quit), keyEquivalent: "q")
-//        self.openPreferences()
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {

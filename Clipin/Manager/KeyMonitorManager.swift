@@ -16,9 +16,6 @@ class KeyMonitorManager: NSObject {
     var preferenceMonitor: Any?
     
     func registerHotKey(key: Key, modifiers: NSEvent.ModifierFlags) {
-        if self.hotKey != nil {
-            NSEvent.removeMonitor(self.hotKey as Any)
-        }
         self.hotKey = HotKey(key: key, modifiers: modifiers, keyDownHandler: {
             guard CGPreflightScreenCaptureAccess() else {
                 let alert = NSAlert()

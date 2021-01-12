@@ -10,6 +10,8 @@ import Carbon
 
 class ClipWindowController: NSWindowController {
     
+    // MARK: - Properties
+    
     var startPoint: NSPoint?
     var lastPoint: NSPoint?
     var clipView: ClipView?
@@ -20,6 +22,8 @@ class ClipWindowController: NSWindowController {
     
     var selectDotType: DotType = .none
     var selectDot: NSPoint = .zero
+    
+    // MARK: - Initialization
         
     override func windowDidLoad() {
         super.windowDidLoad()
@@ -29,6 +33,9 @@ class ClipWindowController: NSWindowController {
         super.init(window: window)
         self.window = window
         NotificationCenter.default.addObserver(self, selector: #selector(self.done), name: NotiNames.clipEnd.name, object: nil)
+        guard let view = window.contentView else {return}
+        let trackingArea = NSTrackingArea(rect: view.frame, options: [.activeAlways, .mouseMoved, .mouseEnteredAndExited], owner: self, userInfo: [:])
+        view.addTrackingArea(trackingArea)
     }
     
     required init?(coder: NSCoder) {
@@ -39,14 +46,17 @@ class ClipWindowController: NSWindowController {
         NotificationCenter.default.removeObserver(self)
     }
     
+    // MARK: - Screen Capture
+    
     func capture(_ screen:NSScreen) {
         guard let window = self.window else { return }
         guard let displayID = screen.deviceDescription[NSDeviceDescriptionKey(rawValue: "NSScreenNumber")] as? CGDirectDisplayID,
               let cgScreenImage = CGDisplayCreateImage(displayID)
         else { return }
         self.screenImage = NSImage(cgImage: cgScreenImage, size: screen.frame.size)
-        window.backgroundColor = NSColor(white: 0, alpha: 0.5)
+        window.backgroundColor = NSColor(white: 0, alpha: 1)
         self.clipView = window.contentView as? ClipView
+        self.clipView?.image = self.screenImage
         self.showWindow(nil)
     }
     
@@ -66,19 +76,59 @@ class ClipWindowController: NSWindowController {
     
     @objc func done() {
         guard let view = self.clipView,
-              let rect = view.drawingRect
+              var rect = view.drawingRect,
+              let window = self.window
         else {
             return
         }
         view.showDots = false
         view.needsDisplay = true
+        rect = NSIntersectionRect(rect, window.frame)
         guard let bitmapRep = view.bitmapImageRepForCachingDisplay(in: rect),
-              let window = self.window,
               let screen = window.screen
         else {return}
-
         view.cacheDisplay(in: rect, to: bitmapRep)
         PinManager.shared.pin(rep: bitmapRep, rect: rect, screenOrigin: screen.visibleFrame.origin)
+    }
+    
+    func detectWindow(with event: NSEvent) {
+        guard let window = self.window,
+              let screen = window.screen
+        else { return }
+        let windowsInfo = ClipManager.shared.windowsInfo
+        for info in windowsInfo {
+            guard var rect = NSRect(dictionaryRepresentation: info[kCGWindowBounds] as! CFDictionary)
+            else {continue}
+            var layer = 0
+            let ref = info[kCGWindowLayer] as! CFNumber
+            CFNumberGetValue(ref, .sInt32Type, &layer)
+            rect = RectUtil.correctCGWindowRect(rect: rect, on: screen)
+            if rect.contains(event.locationInWindow) && layer == 0 {
+                self.highlightRect = rect
+                self.highlight()
+                break
+            }
+
+        }
+    }
+    
+    // MARK: - Mouse Events
+    
+    override func mouseMoved(with event: NSEvent) {
+        guard ClipManager.shared.status == .ready else {
+            return
+        }
+        self.detectWindow(with: event)
+    }
+    
+    override func mouseExited(with event: NSEvent) {
+        guard ClipManager.shared.status == .ready,
+              let view = self.clipView
+        else {
+            return
+        }
+        view.drawingRect = nil
+        view.needsDisplay = true
     }
     
     override func mouseDown(with event: NSEvent) {
@@ -156,10 +206,6 @@ class ClipWindowController: NSWindowController {
             case .corner:
                 let symPoint = lastRect.symmetricalPoint(point: self.selectDot)
                 rect = RectUtil.getRect(aPoint: symPoint, bPoint: location)
-//                rect = RectUtil.getRect(
-//                    aPoint: self.selectDot.offsetBy(dx: <#T##CGFloat#>, dy: <#T##CGFloat#>),
-//                    bPoint: location
-//                )
             case .top:
                 rect = RectUtil.getRect(
                     aPoint: lastRect.origin,

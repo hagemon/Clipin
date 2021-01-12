@@ -19,9 +19,14 @@ class ClipView: NSView {
         super.draw(dirtyRect)
 
         // Drawing code here.
-        guard let image = self.image, let drawingRect = self.drawingRect else {
+        guard let image = self.image,
+              let window = self.window
+        else {
             return
         }
+        let originFrame = NSRect(origin: .zero, size: window.frame.size)
+        image.draw(in: originFrame, from: originFrame, operation: .sourceOver, fraction: 0.5)
+        guard let drawingRect = self.drawingRect else { return }
         var rect = NSIntersectionRect(drawingRect, self.bounds)
         rect = NSIntegralRect(rect)
         image.draw(in: rect, from: rect, operation: .sourceOver, fraction: 1.0)
@@ -72,6 +77,6 @@ class ClipView: NSView {
             return (NSPoint(x: Int(point.x), y: Int(point.y)), type)
         })
         return dots
-    }   
+    }
     
 }

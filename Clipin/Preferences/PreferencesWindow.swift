@@ -19,7 +19,7 @@ class PreferencesWindow: NSWindow, NSTextFieldDelegate {
             event in
             if !event.modifierFlags.isEmpty{
                 self.textField.stringValue = event.modifierFlags.description+event.charactersIgnoringModifiers!
-                ClipManager.shared.registerHotKey(
+                KeyMonitorManager.shared.registerHotKey(
                     key: Key(carbonKeyCode: UInt32(event.keyCode))!,
                     modifiers: event.modifierFlags
                 )
