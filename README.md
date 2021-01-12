@@ -22,6 +22,4 @@ My development blog can be found [here](https://www.notion.so/hagemon/Clipin-Mac
 
 # TODO
 
-- Support automatically window selection.
 - Add basic tools for editing pinned view.
-- Add menu items such as preferences & update.
