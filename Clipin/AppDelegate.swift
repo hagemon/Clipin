@@ -13,6 +13,7 @@ import HotKey
 class AppDelegate: NSObject, NSApplicationDelegate {
     
     let statusItem = NSStatusBar.system.statusItem(withLength:NSStatusItem.squareLength)
+    var preferencesWindowController: PreferencesWindowController?
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         
@@ -33,9 +34,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     @objc func openPreferences() {
-        let controller = PreferencesWindowController(windowNibName: "Preferences")
-        NSApplication.shared.activate(ignoringOtherApps: true)
-        controller.showWindow(nil)
+        if self.preferencesWindowController == nil {
+            let controller = PreferencesWindowController(windowNibName: "Preferences")
+            NSApplication.shared.activate(ignoringOtherApps: true)
+            controller.showWindow(nil)
+        }
     }
 
     @objc func quit() {

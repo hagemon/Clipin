@@ -18,11 +18,16 @@ class PreferencesWindow: NSWindow, NSTextFieldDelegate {
         self.keyListener = NSEvent.addLocalMonitorForEvents(matching: .keyDown, handler: {
             event in
             if !event.modifierFlags.isEmpty{
+                if event.modifierFlags.contains(.command) && event.keyCode == kVK_ANSI_W{
+                    self.close()
+                    return nil
+                }
                 self.textField.stringValue = event.modifierFlags.description+event.charactersIgnoringModifiers!
                 KeyMonitorManager.shared.registerHotKey(
                     key: Key(carbonKeyCode: UInt32(event.keyCode))!,
                     modifiers: event.modifierFlags
                 )
+                KeyMonitorManager.shared.pauseHotKey()
             }
             return nil
         })
@@ -38,6 +43,8 @@ class PreferencesWindow: NSWindow, NSTextFieldDelegate {
         if self.keyListener != nil {
             NSEvent.removeMonitor(self.keyListener!)
         }
+        guard let appDelegate = NSApplication.shared.delegate as? AppDelegate else { return }
+        appDelegate.preferencesWindowController = nil
         super.close()
     }
 
