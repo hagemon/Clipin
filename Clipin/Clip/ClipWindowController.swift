@@ -51,11 +51,12 @@ class ClipWindowController: NSWindowController {
     func capture(_ screen:NSScreen) {
         guard let window = self.window else { return }
         guard let displayID = screen.deviceDescription[NSDeviceDescriptionKey(rawValue: "NSScreenNumber")] as? CGDirectDisplayID,
-              let cgScreenImage = CGDisplayCreateImage(displayID)
+              let cgScreenImage = CGDisplayCreateImage(displayID),
+              let view = window.contentView as? ClipView
         else { return }
         self.screenImage = NSImage(cgImage: cgScreenImage, size: screen.frame.size)
         window.backgroundColor = NSColor(white: 0, alpha: 1)
-        self.clipView = window.contentView as? ClipView
+        self.clipView = view
         self.clipView?.image = self.screenImage
         self.showWindow(nil)
     }
@@ -142,7 +143,6 @@ class ClipWindowController: NSWindowController {
                   let view = self.clipView,
                   rect.insetBy(dx: -5, dy: -5).contains(location)
             else { return }
-            view.showDots = true
             for (path, type) in view.paths {
                 if path.bounds.insetBy(dx: -5, dy: -5).contains(location) {
                     self.selectDotType = type
@@ -168,17 +168,23 @@ class ClipWindowController: NSWindowController {
     override func mouseUp(with event: NSEvent) {
         switch ClipManager.shared.status {
         case .start:
-            guard let rect = self.highlightRect else {
+            guard let rect = self.highlightRect,
+                  let view = self.clipView
+            else {
                 ClipManager.shared.status = .ready
                 return
             }
+            view.showDots = true
             ClipManager.shared.status = .select
             self.lastRect = rect
             self.highlight()
         case .select:
             break
         case .drag, .adjust:
-            guard let rect = self.highlightRect else { return }
+            guard let rect = self.highlightRect,
+                  let view = self.clipView
+            else { return }
+            view.showDots = true
             self.startPoint = rect.origin
             self.selectDotType = .none
             self.lastRect = rect

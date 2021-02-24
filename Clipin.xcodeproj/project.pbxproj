@@ -13,6 +13,7 @@
 		3A1D6D14258E01FB0096A416 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A1D6D13258E01FB0096A416 /* Assets.xcassets */; };
 		3A1D6D17258E01FB0096A416 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A1D6D15258E01FB0096A416 /* Main.storyboard */; };
 		3A31CCCD25A3645300589576 /* RectUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A31CCCC25A3645300589576 /* RectUtil.swift */; };
+		3A52439525D64D16004EC58C /* RectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A52439425D64D16004EC58C /* RectView.swift */; };
 		3A9EA823259C1C5A0000962E /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9EA822259C1C5A0000962E /* Enums.swift */; };
 		3A9EA829259DE8990000962E /* Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9EA828259DE8990000962E /* Extentions.swift */; };
 		3A9EA82D259EC6220000962E /* PinWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9EA82B259EC6220000962E /* PinWindowController.swift */; };
@@ -39,6 +40,7 @@
 		3A1D6D18258E01FB0096A416 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3A1D6D19258E01FB0096A416 /* Clipin.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Clipin.entitlements; sourceTree = "<group>"; };
 		3A31CCCC25A3645300589576 /* RectUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectUtil.swift; sourceTree = "<group>"; };
+		3A52439425D64D16004EC58C /* RectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectView.swift; sourceTree = "<group>"; };
 		3A9EA822259C1C5A0000962E /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		3A9EA828259DE8990000962E /* Extentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extentions.swift; sourceTree = "<group>"; };
 		3A9EA82B259EC6220000962E /* PinWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinWindowController.swift; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 				3AB2444E2598463B003C0CDA /* ClipWindowController.swift */,
 				3AB24443259844BA003C0CDA /* ClipWindow.swift */,
 				3AB24446259844CD003C0CDA /* ClipView.swift */,
+				3A52439425D64D16004EC58C /* RectView.swift */,
 			);
 			path = Clip;
 			sourceTree = "<group>";
@@ -180,7 +183,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1230;
-				LastUpgradeCheck = 1230;
+				LastUpgradeCheck = 1240;
 				TargetAttributes = {
 					3A1D6D0B258E01F90096A416 = {
 						CreatedOnToolsVersion = 12.3;
@@ -230,6 +233,7 @@
 				3AB2444F2598463B003C0CDA /* ClipWindowController.swift in Sources */,
 				3AB244392598420F003C0CDA /* ClipManager.swift in Sources */,
 				3A9EA834259EC6C00000962E /* PinView.swift in Sources */,
+				3A52439525D64D16004EC58C /* RectView.swift in Sources */,
 				3AB2443C2598421A003C0CDA /* PinManager.swift in Sources */,
 				3A9EA823259C1C5A0000962E /* Enums.swift in Sources */,
 				3A31CCCD25A3645300589576 /* RectUtil.swift in Sources */,
@@ -380,6 +384,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Clipin/Clipin.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 3;
@@ -403,6 +408,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Clipin/Clipin.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 3;

@@ -10,8 +10,9 @@ import Cocoa
 class ClipView: NSView {
     
     var image: NSImage?
+    var img:CGImage?
     var drawingRect: NSRect?
-    var showDots = true
+    var showDots = false
     var paths: [(NSBezierPath, DotType)] = []
 
     override func draw(_ dirtyRect: NSRect) {
@@ -24,6 +25,7 @@ class ClipView: NSView {
         else {
             return
         }
+        
         let originFrame = NSRect(origin: .zero, size: window.frame.size)
         image.draw(in: originFrame, from: originFrame, operation: .sourceOver, fraction: 0.5)
         guard let drawingRect = self.drawingRect else { return }
@@ -31,7 +33,6 @@ class ClipView: NSView {
         rect = NSIntegralRect(rect)
         image.draw(in: rect, from: rect, operation: .sourceOver, fraction: 1.0)
         if self.showDots {
-            self.drawEdge(rect: rect)
             self.drawDots(rect: rect)
         }
 
