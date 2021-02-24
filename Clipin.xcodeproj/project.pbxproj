@@ -23,8 +23,8 @@
 		3AB244392598420F003C0CDA /* ClipManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB244382598420F003C0CDA /* ClipManager.swift */; };
 		3AB2443C2598421A003C0CDA /* PinManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB2443B2598421A003C0CDA /* PinManager.swift */; };
 		3AB24444259844BB003C0CDA /* ClipWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB24443259844BA003C0CDA /* ClipWindow.swift */; };
-		3AB24447259844CD003C0CDA /* ClipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB24446259844CD003C0CDA /* ClipView.swift */; };
 		3AB2444F2598463B003C0CDA /* ClipWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB2444E2598463B003C0CDA /* ClipWindowController.swift */; };
+		3AD11D7725E6A4D700DE61A6 /* BackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD11D7625E6A4D700DE61A6 /* BackView.swift */; };
 		3AE1F3FF25AAA01300A38694 /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE1F3FD25AAA01300A38694 /* PreferencesWindowController.swift */; };
 		3AE1F40325AAA0DD00A38694 /* PreferencesWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE1F40225AAA0DD00A38694 /* PreferencesWindow.swift */; };
 		3AE1F41025AAA33100A38694 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AE1F40F25AAA33000A38694 /* Preferences.xib */; };
@@ -49,8 +49,8 @@
 		3AB244382598420F003C0CDA /* ClipManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipManager.swift; sourceTree = "<group>"; };
 		3AB2443B2598421A003C0CDA /* PinManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinManager.swift; sourceTree = "<group>"; };
 		3AB24443259844BA003C0CDA /* ClipWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipWindow.swift; sourceTree = "<group>"; };
-		3AB24446259844CD003C0CDA /* ClipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipView.swift; sourceTree = "<group>"; };
 		3AB2444E2598463B003C0CDA /* ClipWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipWindowController.swift; sourceTree = "<group>"; };
+		3AD11D7625E6A4D700DE61A6 /* BackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackView.swift; sourceTree = "<group>"; };
 		3AE1F3FD25AAA01300A38694 /* PreferencesWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesWindowController.swift; sourceTree = "<group>"; };
 		3AE1F40225AAA0DD00A38694 /* PreferencesWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesWindow.swift; sourceTree = "<group>"; };
 		3AE1F40F25AAA33000A38694 /* Preferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
@@ -116,8 +116,8 @@
 			children = (
 				3AB2444E2598463B003C0CDA /* ClipWindowController.swift */,
 				3AB24443259844BA003C0CDA /* ClipWindow.swift */,
-				3AB24446259844CD003C0CDA /* ClipView.swift */,
 				3A52439425D64D16004EC58C /* RectView.swift */,
+				3AD11D7625E6A4D700DE61A6 /* BackView.swift */,
 			);
 			path = Clip;
 			sourceTree = "<group>";
@@ -232,6 +232,7 @@
 				3AE1F40325AAA0DD00A38694 /* PreferencesWindow.swift in Sources */,
 				3AB2444F2598463B003C0CDA /* ClipWindowController.swift in Sources */,
 				3AB244392598420F003C0CDA /* ClipManager.swift in Sources */,
+				3AD11D7725E6A4D700DE61A6 /* BackView.swift in Sources */,
 				3A9EA834259EC6C00000962E /* PinView.swift in Sources */,
 				3A52439525D64D16004EC58C /* RectView.swift in Sources */,
 				3AB2443C2598421A003C0CDA /* PinManager.swift in Sources */,
@@ -239,7 +240,6 @@
 				3A31CCCD25A3645300589576 /* RectUtil.swift in Sources */,
 				3AB24444259844BB003C0CDA /* ClipWindow.swift in Sources */,
 				3A9EA82D259EC6220000962E /* PinWindowController.swift in Sources */,
-				3AB24447259844CD003C0CDA /* ClipView.swift in Sources */,
 				3AE1F3FF25AAA01300A38694 /* PreferencesWindowController.swift in Sources */,
 				3A9EA831259EC63C0000962E /* PinWindow.swift in Sources */,
 				3A1D6D10258E01F90096A416 /* AppDelegate.swift in Sources */,

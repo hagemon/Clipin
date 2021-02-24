@@ -38,8 +38,9 @@ class ClipManager {
         KeyMonitorManager.shared.registerClipMonitor()
         
         for screen in NSScreen.screens {
-            let view = ClipView(frame: screen.frame)
-            let clipWindow = ClipWindow(contentRect: screen.frame, contentView: view)
+            let view = BackView(frame: screen.frame)
+            let rectView = RectView(frame: screen.frame)
+            let clipWindow = ClipWindow(contentRect: screen.frame, backView: view, rectView: rectView)
             let clipWindowController = ClipWindowController(window: clipWindow)
             controllers.append(clipWindowController)
             clipWindowController.capture(screen)

@@ -14,7 +14,8 @@ class ClipWindowController: NSWindowController {
     
     var startPoint: NSPoint?
     var lastPoint: NSPoint?
-    var clipView: ClipView?
+    var backView: BackView?
+    var rectView: RectView?
     
     var lastRect: NSRect?
     var highlightRect: NSRect?
@@ -49,46 +50,47 @@ class ClipWindowController: NSWindowController {
     // MARK: - Screen Capture
     
     func capture(_ screen:NSScreen) {
-        guard let window = self.window else { return }
+        guard let window = self.window as? ClipWindow else { return }
         guard let displayID = screen.deviceDescription[NSDeviceDescriptionKey(rawValue: "NSScreenNumber")] as? CGDirectDisplayID,
-              let cgScreenImage = CGDisplayCreateImage(displayID),
-              let view = window.contentView as? ClipView
+              let cgScreenImage = CGDisplayCreateImage(displayID)
         else { return }
         self.screenImage = NSImage(cgImage: cgScreenImage, size: screen.frame.size)
         window.backgroundColor = NSColor(white: 0, alpha: 1)
-        self.clipView = view
-        self.clipView?.image = self.screenImage
+        self.backView = window.backView
+        self.rectView = window.rectView
+        self.backView?.image = self.screenImage
+        self.rectView?.image = self.screenImage
         self.showWindow(nil)
     }
     
     func highlight() {
         guard let rect = self.highlightRect,
               let image = self.screenImage,
-              let view = self.clipView
+              let rectView = self.rectView
         else { return }
         DispatchQueue.main.async {
-            if view.image == nil {
-                view.image = image
+            if rectView.image == nil {
+                rectView.image = image
             }
-            view.drawingRect = rect
-            view.needsDisplay = true
+            rectView.drawingRect = rect
+            rectView.needsDisplay = true
         }
     }
     
     @objc func done() {
-        guard let view = self.clipView,
-              var rect = view.drawingRect,
+        guard let rectView = self.rectView,
+              var rect = rectView.drawingRect,
               let window = self.window
         else {
             return
         }
-        view.showDots = false
-        view.needsDisplay = true
+        rectView.showDots = false
+        rectView.needsDisplay = true
         rect = NSIntersectionRect(rect, window.frame)
-        guard let bitmapRep = view.bitmapImageRepForCachingDisplay(in: rect),
+        guard let bitmapRep = rectView.bitmapImageRepForCachingDisplay(in: rect),
               let screen = window.screen
         else {return}
-        view.cacheDisplay(in: rect, to: bitmapRep)
+        rectView.cacheDisplay(in: rect, to: bitmapRep)
         PinManager.shared.pin(rep: bitmapRep, rect: rect, screenOrigin: screen.visibleFrame.origin)
     }
     
@@ -124,12 +126,12 @@ class ClipWindowController: NSWindowController {
     
     override func mouseExited(with event: NSEvent) {
         guard ClipManager.shared.status == .ready,
-              let view = self.clipView
+              let rectView = self.rectView
         else {
             return
         }
-        view.drawingRect = nil
-        view.needsDisplay = true
+        rectView.drawingRect = nil
+        rectView.needsDisplay = true
     }
     
     override func mouseDown(with event: NSEvent) {
@@ -140,10 +142,10 @@ class ClipWindowController: NSWindowController {
             self.startPoint = location
         case .select:
             guard let rect = self.highlightRect,
-                  let view = self.clipView,
+                  let rectView = self.rectView,
                   rect.insetBy(dx: -5, dy: -5).contains(location)
             else { return }
-            for (path, type) in view.paths {
+            for (path, type) in rectView.paths {
                 if path.bounds.insetBy(dx: -5, dy: -5).contains(location) {
                     self.selectDotType = type
                     self.selectDot = path.bounds.center()
@@ -169,12 +171,12 @@ class ClipWindowController: NSWindowController {
         switch ClipManager.shared.status {
         case .start:
             guard let rect = self.highlightRect,
-                  let view = self.clipView
+                  let rectView = self.rectView
             else {
                 ClipManager.shared.status = .ready
                 return
             }
-            view.showDots = true
+            rectView.showDots = true
             ClipManager.shared.status = .select
             self.lastRect = rect
             self.highlight()
@@ -182,9 +184,9 @@ class ClipWindowController: NSWindowController {
             break
         case .drag, .adjust:
             guard let rect = self.highlightRect,
-                  let view = self.clipView
+                  let rectView = self.rectView
             else { return }
-            view.showDots = true
+            rectView.showDots = true
             self.startPoint = rect.origin
             self.selectDotType = .none
             self.lastRect = rect
